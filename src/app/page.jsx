@@ -12,7 +12,7 @@ export default function Landing() {
           href="/guestbook"
           className="py-6 px-12 rounded-2xl bg-[#81b29a] text-white font-semibold hover:bg-[#6a9984] transition"
         >
-          Join the Wedding and Send Your Wishes
+          Join the Wedding Guestbook
         </a>
         <a
           href="/flower-garden"
@@ -20,9 +20,6 @@ export default function Landing() {
         >
           View All Wishes (Flower Garden)
         </a>
-        <div className="bg-red-500 text-white text-xl">
-          This should have a red background and white large text
-        </div>
       </div>
     </div>
   );
