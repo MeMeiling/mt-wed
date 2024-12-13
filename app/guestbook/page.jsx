@@ -1,11 +1,45 @@
-"use client"; // บอกว่าไฟล์นี้เป็น Client Component
+"use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // ใช้ next/navigation แทน next/router
+import { useRouter } from "next/navigation";
+import Cropper from "react-easy-crop";
+import getCroppedImg from "../utils/cropImage"; // ฟังก์ชันช่วย Crop (สร้างไฟล์ใหม่)
+import { readFile } from "../utils/readFile"; // ฟังก์ชันอ่านไฟล์ (สร้างไฟล์ใหม่)
 
 export default function Guestbook() {
-  const [isSubmitted, setIsSubmitted] = useState(false); // ควบคุมการแสดงผลของ Popup
-  const router = useRouter(); // ใช้สำหรับนำทางไปยัง Garden Page
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [imageSrc, setImageSrc] = useState(null);
+  const [croppedArea, setCroppedArea] = useState(null);
+  const [croppedImage, setCroppedImage] = useState(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 }); // สถานะตำแหน่งของกรอบครอป
+  const [zoom, setZoom] = useState(1); // สถานะสำหรับการซูม
+  const router = useRouter();
+
+  const onCropChange = (newCrop) => {
+    setCrop(newCrop); // อัพเดตตำแหน่งของกรอบครอป
+  };
+
+  const onCropComplete = (_, croppedAreaPixels) => {
+    setCroppedArea(croppedAreaPixels); // ตั้งค่าผลลัพธ์ของการครอป
+  };
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const data = await readFile(file);
+      setImageSrc(data);
+    }
+  };
+
+  const handleCropImage = async () => {
+    try {
+      const croppedImg = await getCroppedImg(imageSrc, croppedArea); // ส่งค่า croppedArea ไปยังฟังก์ชันครอป
+      setCroppedImage(croppedImg);
+      setImageSrc(null); // ซ่อน crop modal
+    } catch (err) {
+      console.error("Error cropping image:", err);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -13,17 +47,18 @@ export default function Guestbook() {
     const data = {
       name: formData.get("name"),
       message: formData.get("message"),
-      image: formData.get("image"),
+      image: croppedImage, // ส่งรูปที่ครอปแล้ว
     };
+
     console.log("Submitted Data:", data);
 
     // TODO: ส่งข้อมูลไปยัง Firebase ที่นี่
 
-    setIsSubmitted(true); // แสดง Popup ขอบคุณ
+    setIsSubmitted(true);
   };
 
   const handleGoToGarden = () => {
-    router.push("/garden"); // เปลี่ยนไปหน้า Garden Page
+    router.push("/garden");
   };
 
   return (
@@ -67,8 +102,22 @@ export default function Guestbook() {
               name="image"
               accept="image/*"
               className="w-full border border-gray-300 rounded-lg p-2"
+              onChange={handleFileChange}
             />
           </div>
+          {imageSrc && (
+            <div className="relative w-full h-64 bg-gray-100 mb-4">
+              <Cropper
+                image={imageSrc}
+                crop={crop} // ส่งค่า crop ให้กับ Cropper
+                zoom={zoom} // ควบคุมการซูม
+                aspect={1}
+                onCropChange={onCropChange} // ฟังก์ชันนี้จะอัพเดตตำแหน่งของกรอบครอป
+                onCropComplete={onCropComplete} // ฟังก์ชันนี้จะรับค่า croppedArea
+                onZoomChange={setZoom} // ฟังก์ชันนี้จะตั้งค่าการซูม
+              />
+            </div>
+          )}
           <button
             type="submit"
             className="w-full py-2 px-4 bg-[#81b29a] text-white font-bold rounded-lg hover:bg-[#6a9984] transition"

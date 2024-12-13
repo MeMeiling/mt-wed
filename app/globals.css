@@ -6,6 +6,7 @@ body {
   background: white;
   font-family: "Poppins";
 }
+
 h1 {
   font-size: 42px;
   font-weight: 600;
@@ -24,3 +25,10 @@ h3 {
   padding-top: 8px;
   padding-bottom: 8px;
 }
+
+/* เพิ่มคลาส .relative เพื่อใช้ clip-path สำหรับกรอบวงกลม */
+.mask-circle {
+  clip-path: circle(50% at 50% 50%); /* สร้างวงกลมตรงกลาง */
+}
+
+
