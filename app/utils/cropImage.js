@@ -1,18 +1,32 @@
-export const getCroppedImg = (imageSrc, crop) => {
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-  const image = new Image();
-  image.src = imageSrc;
+// utils/cropImage.js
+export default function getCroppedImg(imageSrc, croppedAreaPixels) {
+  // โค้ดในการครอปภาพ (โค้ดนี้เป็นตัวอย่าง)
   return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.src = imageSrc;
     image.onload = () => {
-      const { x, y, width, height } = crop;
-      canvas.width = width;
-      canvas.height = height;
-      ctx.drawImage(image, x, y, width, height, 0, 0, width, height);
-      canvas.toBlob((blob) => {
-        resolve(URL.createObjectURL(blob));
-      }, "image/jpeg");
+      // สร้าง Canvas และครอปภาพ
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      // ครอปภาพตามขนาดที่ได้จาก croppedAreaPixels
+      canvas.width = croppedAreaPixels.width;
+      canvas.height = croppedAreaPixels.height;
+      ctx.drawImage(
+        image,
+        croppedAreaPixels.x,
+        croppedAreaPixels.y,
+        croppedAreaPixels.width,
+        croppedAreaPixels.height,
+        0,
+        0,
+        croppedAreaPixels.width,
+        croppedAreaPixels.height
+      );
+
+      // ส่งคืนผลลัพธ์เป็น base64 หรือ Blob
+      resolve(canvas.toDataURL("image/jpeg"));
     };
-    image.onerror = reject;
+    image.onerror = (error) => reject(error);
   });
-};
+}

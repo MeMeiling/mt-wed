@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import Cropper from "react-easy-crop";
 import getCroppedImg from "../utils/cropImage"; // ฟังก์ชันช่วย Crop (สร้างไฟล์ใหม่)
 import { readFile } from "../utils/readFile"; // ฟังก์ชันอ่านไฟล์ (สร้างไฟล์ใหม่)
+import { storage, db } from "../firebase"; // นำเข้า Firebase Storage และ Firestore
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { collection, addDoc } from "firebase/firestore"; 
 
 export default function Guestbook() {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -13,6 +16,7 @@ export default function Guestbook() {
   const [croppedImage, setCroppedImage] = useState(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 }); // สถานะตำแหน่งของกรอบครอป
   const [zoom, setZoom] = useState(1); // สถานะสำหรับการซูม
+  const [isUploading, setIsUploading] = useState(false); // สถานะการอัพโหลด
   const router = useRouter();
 
   const onCropChange = (newCrop) => {
@@ -32,17 +36,30 @@ export default function Guestbook() {
   };
 
   const handleCropImage = async () => {
-    try {
-      const croppedImg = await getCroppedImg(imageSrc, croppedArea); // ส่งค่า croppedArea ไปยังฟังก์ชันครอป
-      setCroppedImage(croppedImg);
-      setImageSrc(null); // ซ่อน crop modal
-    } catch (err) {
-      console.error("Error cropping image:", err);
+    if (!croppedImage && imageSrc && croppedArea) {
+      try {
+        const croppedImg = await getCroppedImg(imageSrc, croppedArea); // ส่งค่า croppedArea ไปยังฟังก์ชันครอป
+        setCroppedImage(croppedImg); // ตั้งค่าภาพที่ครอปแล้ว
+      } catch (err) {
+        console.error("Error cropping image:", err);
+      }
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // ถ้ายังไม่ได้ครอปภาพจะทำการครอปให้อัตโนมัติ
+    if (!croppedImage) {
+      await handleCropImage(); // เรียกฟังก์ชันครอปภาพ
+    }
+
+    if (!croppedImage) {
+      alert("There was an error cropping the image. Please try again.");
+      return;
+    }
+
+    setIsUploading(true); // ตั้งสถานะการอัพโหลดเป็น true
     const formData = new FormData(e.target);
     const data = {
       name: formData.get("name"),
@@ -50,11 +67,26 @@ export default function Guestbook() {
       image: croppedImage, // ส่งรูปที่ครอปแล้ว
     };
 
-    console.log("Submitted Data:", data);
+    try {
+      // อัปโหลดไฟล์ที่ครอปแล้วไปยัง Firebase Storage
+      const imageRef = ref(storage, `images/${formData.get("name")}-${Date.now()}`); // ตั้งชื่อไฟล์เป็นชื่อผู้ใช้ + เวลา
+      const snapshot = await uploadBytes(imageRef, croppedImage); // อัปโหลดไฟล์ไปยัง Firebase Storage
+      const downloadURL = await getDownloadURL(snapshot.ref); // ดึง URL ของไฟล์ที่อัปโหลด
 
-    // TODO: ส่งข้อมูลไปยัง Firebase ที่นี่
+      console.log("Image uploaded. File available at:", downloadURL);
 
-    setIsSubmitted(true);
+      // บันทึกข้อมูล (รวม URL ของภาพ) ไปยัง Firestore
+      const dataWithImageUrl = { ...data, imageUrl: downloadURL };
+
+      await addDoc(collection(db, "wishes"), dataWithImageUrl); // ส่งข้อมูลไปยัง Firestore
+      console.log("Data saved to Firestore:", dataWithImageUrl);
+
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    } finally {
+      setIsUploading(false); // ตั้งสถานะการอัพโหลดเป็น false เมื่อเสร็จสิ้น
+    }
   };
 
   const handleGoToGarden = () => {
@@ -121,8 +153,9 @@ export default function Guestbook() {
           <button
             type="submit"
             className="w-full py-2 px-4 bg-[#81b29a] text-white font-bold rounded-lg hover:bg-[#6a9984] transition"
+            disabled={isUploading} // ปิดปุ่มเมื่อกำลังอัพโหลด
           >
-            Submit
+            {isUploading ? "Submitting..." : "Submit"}
           </button>
         </form>
       ) : (
