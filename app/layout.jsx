@@ -1,15 +1,13 @@
-import { Poppins } from "next/font/google";
+import { Caveat } from "next/font/google"; // เปลี่ยนเป็น Caveat
 import "./globals.css";
 
-const poppinsFont = Poppins({ subsets: ["latin"], weight:["200", "300", "400", "600", "900"] });
+// กำหนดฟอนต์ Caveat พร้อมน้ำหนัก
+const caveatFont = Caveat({ subsets: ["latin"], weight: ["400", "700"] });
 
-
-export default function RootLayout({
-  children,
-}) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={poppinsFont.className}>{children}</body>
+      <body className={caveatFont.className}>{children}</body>
     </html>
   );
 }

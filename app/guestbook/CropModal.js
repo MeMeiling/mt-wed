@@ -7,8 +7,8 @@ import getCroppedImg from "../utils/cropImage"; // ฟังก์ชันค�
 export default function CropModal({ isOpen, onClose, imageSrc, onCropComplete }) {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [croppedImage, setCroppedImage] = useState(null);
-  const [croppedArea, setCroppedArea] = useState(null);
+  const [croppedImage, setCroppedImage] = useState(null); // เก็บภาพที่ครอปแล้ว
+  const [croppedArea, setCroppedArea] = useState(null); // เก็บตำแหน่งที่ครอป
 
   const onCropChange = (newCrop) => setCrop(newCrop);
   const onCropCompleteInternal = (_, croppedAreaPixels) => setCroppedArea(croppedAreaPixels);
@@ -18,7 +18,7 @@ export default function CropModal({ isOpen, onClose, imageSrc, onCropComplete })
 
     try {
       const croppedImg = await getCroppedImg(imageSrc, croppedArea);
-      setCroppedImage(croppedImg);
+      setCroppedImage(croppedImg); // เก็บภาพที่ครอปแล้ว
     } catch (err) {
       console.error("Error cropping image:", err);
     }
@@ -26,7 +26,8 @@ export default function CropModal({ isOpen, onClose, imageSrc, onCropComplete })
 
   const handleSubmit = () => {
     if (croppedImage) {
-      onCropComplete(croppedImage);
+      onCropComplete(croppedImage); // ส่งภาพที่ครอปแล้วกลับไปยังหน้า Guestbook
+      onClose(); // ปิด modal
     }
   };
 
@@ -49,7 +50,7 @@ export default function CropModal({ isOpen, onClose, imageSrc, onCropComplete })
         </div>
         <div className="flex justify-between">
           <button onClick={onClose} className="px-4 py-2 bg-red-600 text-white rounded-lg">Cancel</button>
-          <button onClick={handleSubmit} className="px-4 py-2 bg-[#81b29a] text-white rounded-lg">Submit</button>
+          <button onClick={handleSubmit} className="px-4 py-2 bg-[#81b29a] text-white rounded-lg" disabled={!croppedImage}>Submit</button>
         </div>
       </div>
     </div>

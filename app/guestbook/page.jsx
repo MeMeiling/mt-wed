@@ -50,10 +50,12 @@ export default function Guestbook() {
     };
 
     try {
+      // 1. อัปโหลดภาพที่ครอปแล้วไปยัง Firebase Storage
       const imageRef = ref(storage, `images/${formData.get("name")}-${Date.now()}`);
       const snapshot = await uploadBytes(imageRef, croppedImage);
-      const downloadURL = await getDownloadURL(snapshot.ref);
+      const downloadURL = await getDownloadURL(snapshot.ref); // ดึง URL ของภาพที่อัปโหลด
 
+      // 2. บันทึกข้อมูล (รวม URL ของภาพที่อัปโหลด) ไปยัง Firestore
       const dataWithImageUrl = { ...data, imageUrl: downloadURL };
       await addDoc(collection(db, "wishes"), dataWithImageUrl);
 
@@ -107,8 +109,12 @@ export default function Guestbook() {
         </div>
       )}
 
-      {/* Modal สำหรับการครอปภาพ */}
-      <CropModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} imageSrc={imageSrc} onCropComplete={handleCropComplete} />
+      <CropModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        imageSrc={imageSrc}
+        onCropComplete={handleCropComplete}
+      />
     </div>
   );
 }

@@ -8,6 +8,16 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        maincolor: "#634E15", // สีหลัก
+        seccolor: "#54524E", // สีรอง
+        terticolor: "#826633", // สีน้ำตาลเข้ม2
+        buttoncolormain: "#F8E0A0", // ปุ่มเมน
+        buttoncolorsub: "#D7B250", // ปุ่มรอง
+      },
+      fontFamily: {
+        caveat: ["Caveat", "cursive"], // ฟอนต์ Caveat
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -17,4 +27,5 @@ const config: Config = {
   },
   plugins: [],
 };
+
 export default config;

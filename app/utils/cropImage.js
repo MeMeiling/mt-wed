@@ -1,44 +1,39 @@
-// utils/cropImage.js
-export default function getCroppedImg(imageSrc, croppedAreaPixels) {
-  return new Promise((resolve, reject) => {
+export default function getCroppedImg(imageSrc, pixelCrop) {
     const image = new Image();
     image.src = imageSrc;
-
-    // ตรวจสอบว่าภาพสามารถโหลดได้หรือไม่
-    image.onload = () => {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-
-      // ตรวจสอบค่า croppedAreaPixels ที่ได้รับมาว่าถูกต้องหรือไม่
-      if (!croppedAreaPixels || !croppedAreaPixels.width || !croppedAreaPixels.height) {
-        reject("Invalid crop area");
-        return;
-      }
-
-      canvas.width = croppedAreaPixels.width;
-      canvas.height = croppedAreaPixels.height;
-
-      try {
-        // ครอปภาพตามขนาดที่ตั้งไว้
+  
+    return new Promise((resolve, reject) => {
+      image.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+  
+        const scaleX = image.naturalWidth / image.width;
+        const scaleY = image.naturalHeight / image.height;
+  
+        canvas.width = pixelCrop.width;
+        canvas.height = pixelCrop.height;
+  
         ctx.drawImage(
           image,
-          croppedAreaPixels.x,
-          croppedAreaPixels.y,
-          croppedAreaPixels.width,
-          croppedAreaPixels.height,
+          pixelCrop.x * scaleX,
+          pixelCrop.y * scaleY,
+          pixelCrop.width * scaleX,
+          pixelCrop.height * scaleY,
           0,
           0,
-          croppedAreaPixels.width,
-          croppedAreaPixels.height
+          pixelCrop.width,
+          pixelCrop.height
         );
+  
+        // สร้าง base64 URL ของภาพที่ครอป
+        const base64Image = canvas.toDataURL("image/jpeg");
+        resolve(base64Image); // คืนค่าภาพที่ครอปแล้วเป็น base64
+      };
+  
+      image.onerror = (error) => {
+        reject(error);
+      };
+    });
+  }
 
-        // ส่งคืน base64 ของภาพที่ครอปแล้ว
-        resolve(canvas.toDataURL("image/jpeg"));
-      } catch (error) {
-        reject("Error while cropping the image");
-      }
-    };
-
-    image.onerror = (error) => reject("Error loading image: " + error.message);
-  });
-}
+  

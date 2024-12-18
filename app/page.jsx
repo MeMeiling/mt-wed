@@ -1,25 +1,34 @@
+import Button from "../components/Button";
+
 export default function Landing() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-[#fefae0] px-4">
-      <h1 className="text-2xl md:text-4xl font-bold text-[#6b705c] mb-6 text-center">
-        Welcome to Our Wedding Celebration
-      </h1>
-      <h3 className="text-lg md:text-xl text-[#6b705c] mb-12 text-center">
-        Choose what you&apos;d like to do:
-      </h3>
-      <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-        <a
-          href="/guestbook"
-          className="py-4 px-8 md:py-6 md:px-12 rounded-2xl bg-[#81b29a] text-white font-semibold hover:bg-[#6a9984] transition text-center"
-        >
-          Join the Wedding and Send Your Wishes
-        </a>
-        <a
-          href="/garden"
-          className="py-4 px-8 md:py-6 md:px-12 rounded-2xl bg-[#81b29a] text-white font-semibold hover:bg-[#6a9984] transition text-center"
-        >
-          View All Wishes (Garden)
-        </a>
+    <div
+      className="h-screen bg-cover bg-center"
+      style={{ backgroundImage: "url('/bg1.jpg')" }} // ใช้ bg1.jpg เป็นพื้นหลัง
+    >
+      <div className="flex flex-col justify-start pt-[5%] xl:pt-[4%] md:pt-[7%] px-4">
+        <h1 className="text-6xl md:text-7xl font-bold text-maincolor mb-4 text-center drop-shadow-lg">
+          Meiling & Tul
+        </h1>
+        <h3 className="text-3xl md:text-4xl font-medium text-maincolor mb-8 md:mb-10 text-center drop-shadow-lg">
+          Wedding Ceremony
+        </h3>
+        <div className="flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-4 justify-center items-center">
+          <Button
+            variant="main" // ใช้ปุ่มแบบ main
+            href="/guestbook"
+            className="py-4 px-8 md:py-6 md:px-12 text-center"
+          >
+            Join the Event !!
+          </Button>
+          <Button
+            variant="sub" // ใช้ปุ่มแบบ secondary
+            href="/garden"
+            className="py-4 px-8 md:py-6 md:px-12 text-center"
+          >
+            Visit the Garden
+          </Button>
+        </div>
       </div>
     </div>
   );
