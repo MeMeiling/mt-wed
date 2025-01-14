@@ -5,13 +5,11 @@ import { useRouter } from "next/navigation";
 import { storage, db } from "../firebase"; // Firebase Storage และ Firestore
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc } from "firebase/firestore";
-import CropModal from "./CropModal"; // นำเข้า Modal สำหรับการครอปภาพ
+import Button from "/components/Button"; // Corrected import path
 
 export default function Guestbook() {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // สถานะ Modal
   const [imageSrc, setImageSrc] = useState(null); // ภาพที่เลือก
-  const [croppedImage, setCroppedImage] = useState(null); // ภาพที่ครอปแล้ว
   const [isUploading, setIsUploading] = useState(false);
   const router = useRouter();
 
@@ -21,24 +19,13 @@ export default function Guestbook() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageSrc(reader.result); // เก็บข้อมูลภาพ
-        setIsModalOpen(true); // เปิด Modal
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleCropComplete = (croppedImageData) => {
-    setCroppedImage(croppedImageData); // เก็บภาพที่ครอปแล้ว
-    setIsModalOpen(false); // ปิด Modal
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!croppedImage) {
-      alert("Please crop the image before submitting.");
-      return;
-    }
 
     setIsUploading(true); // ตั้งสถานะการอัปโหลด
 
@@ -46,17 +33,20 @@ export default function Guestbook() {
     const data = {
       name: formData.get("name"),
       message: formData.get("message"),
-      image: croppedImage, // ใช้ภาพที่ครอปแล้ว
+      image: imageSrc, // ใช้ภาพที่เลือก (ไม่ต้องครอป)
     };
 
     try {
-      // 1. อัปโหลดภาพที่ครอปแล้วไปยัง Firebase Storage
-      const imageRef = ref(storage, `images/${formData.get("name")}-${Date.now()}`);
-      const snapshot = await uploadBytes(imageRef, croppedImage);
-      const downloadURL = await getDownloadURL(snapshot.ref); // ดึง URL ของภาพที่อัปโหลด
+      // 1. ถ้ามีการอัปโหลดภาพ อัปโหลดภาพไปยัง Firebase Storage
+      let imageUrl = "";
+      if (imageSrc) {
+        const imageRef = ref(storage, `images/${formData.get("name")}-${Date.now()}`);
+        const snapshot = await uploadBytes(imageRef, imageSrc);
+        imageUrl = await getDownloadURL(snapshot.ref); // ดึง URL ของภาพที่อัปโหลด
+      }
 
       // 2. บันทึกข้อมูล (รวม URL ของภาพที่อัปโหลด) ไปยัง Firestore
-      const dataWithImageUrl = { ...data, imageUrl: downloadURL };
+      const dataWithImageUrl = { ...data, imageUrl };
       await addDoc(collection(db, "wishes"), dataWithImageUrl);
 
       setIsSubmitted(true); // ตั้งค่าการส่งข้อมูลเสร็จ
@@ -72,49 +62,77 @@ export default function Guestbook() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[#fefae0] px-4">
-      <h1 className="text-2xl md:text-4xl font-bold text-[#6b705c] mb-6">
+    <div
+      className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center px-4"
+      style={{ backgroundImage: "url('/bg2.jpg')" }}
+    >
+      <h1 className="text-4xl md:text-4xl font-bold text-maincolor mb-6">
         Leave Your Wishes
       </h1>
       {!isSubmitted ? (
-        <form onSubmit={handleSubmit} className="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
+        <form onSubmit={handleSubmit} className="w-full max-w-md p-6 box-background">
           <div className="mb-4">
-            <label className="block text-[#6b705c] font-medium mb-2">Your Name</label>
-            <input type="text" name="name" className="w-full border border-gray-300 rounded-lg p-2" required />
+            <label className="block text-seccolor text-xl mb-2">Your Name</label>
+            <input
+              type="text"
+              name="name"
+              className="w-full input-field"
+              required
+            />
           </div>
           <div className="mb-4">
-            <label className="block text-[#6b705c] font-medium mb-2">Your Message</label>
-            <textarea name="message" className="w-full border border-gray-300 rounded-lg p-2" rows="4" required></textarea>
+            <label className="block text-seccolor text-xl mb-2">Your Message</label>
+            <textarea
+              name="message"
+              className="w-full input-field"
+              rows="4"
+              required
+            ></textarea>
           </div>
           <div className="mb-4">
-            <label className="block text-[#6b705c] font-medium mb-2">Upload Image</label>
-            <input type="file" accept="image/*" className="w-full border border-gray-300 rounded-lg p-2" onChange={handleFileChange} />
+            <label className="block text-seccolor text-xl mb-2">Upload Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              className="w-full input-field"
+              onChange={handleFileChange}
+            />
           </div>
-          {croppedImage && (
+          {imageSrc && (
             <div className="relative w-full h-64 bg-gray-100 mb-4">
-              <img src={croppedImage} alt="Cropped" className="object-cover w-full h-full" />
+              <img
+                src={imageSrc}
+                alt="Selected"
+                className="object-cover w-full h-full"
+              />
             </div>
           )}
-          <button type="submit" className="w-full py-2 px-4 bg-[#81b29a] text-white font-bold rounded-lg hover:bg-[#6a9984] transition" disabled={isUploading}>
+          <Button
+            variant="main"
+            className="w-full my-4"
+            disabled={isUploading}
+          >
             {isUploading ? "Submitting..." : "Submit"}
-          </button>
+          </Button>
         </form>
       ) : (
-        <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-          <h2 className="text-2xl font-bold text-[#6b705c] mb-4">Thank You for Your Wishes!</h2>
-          <p className="text-[#6b705c] mb-6">Your wishes have been successfully submitted.</p>
-          <button onClick={handleGoToGarden} className="py-2 px-6 bg-[#81b29a] text-white font-bold rounded-lg hover:bg-[#6a9984] transition">
+        <div className="p-6 text-center box-background">
+          <h2 className="text-3xl font-bold text-seccolor mb-4">Thank You Name!</h2>
+          {/* แทรกรูปภาพตรงนี้ */}
+          <img
+            src="/flowermock.png" 
+            className="w-32 h-32 mx-auto my-2" // ปรับขนาดรูป
+          />
+          <p className="text-2xl text-seccolor mb-6">Your wishes have been successfully submitted.</p>
+          <Button
+            variant="main" // ใช้ปุ่มแบบ main
+            onClick={handleGoToGarden}
+            className=""
+          >
             Go to Garden
-          </button>
+          </Button>
         </div>
       )}
-
-      <CropModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        imageSrc={imageSrc}
-        onCropComplete={handleCropComplete}
-      />
     </div>
   );
 }

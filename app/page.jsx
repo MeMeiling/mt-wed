@@ -6,7 +6,7 @@ export default function Landing() {
       className="h-screen bg-cover bg-center"
       style={{ backgroundImage: "url('/bg1.jpg')" }} // ใช้ bg1.jpg เป็นพื้นหลัง
     >
-      <div className="flex flex-col justify-start pt-[5%] xl:pt-[4%] md:pt-[7%] px-4">
+      <div className="flex flex-col justify-start pt-[5%] xl:pt-[4%] px-4">
         <h1 className="text-6xl md:text-7xl font-bold text-maincolor mb-4 text-center drop-shadow-lg">
           Meiling & Tul
         </h1>
