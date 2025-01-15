@@ -76,7 +76,7 @@ export default function Guestbook() {
             <input
               type="text"
               name="name"
-              className="font-sub w-full input-field"
+              className="w-full input-field"
               required
             />
           </div>
@@ -84,7 +84,7 @@ export default function Guestbook() {
             <label className="block text-seccolor text-xl mb-2">Your Message</label>
             <textarea
               name="message"
-              className="font-sub w-full input-field"
+              className="w-full input-field"
               rows="4"
               required
             ></textarea>

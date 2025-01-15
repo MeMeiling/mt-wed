@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  background: white;
+  font-family: 'Caveat', sans-serif;
 }
 
 .font-sub {
