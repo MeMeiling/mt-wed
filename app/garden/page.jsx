@@ -88,7 +88,7 @@ export default function FlowerGarden() {
                   className="w-32 h-32 mx-auto rounded-full mb-4 object-cover"
                 />
               */}
-              <h2 className="font-sub text-3xl font-bold text-seccolor text-center mb-4">
+              <h2 className="text-3xl font-bold text-seccolor text-center mb-4">
                 {selectedWish.name}
               </h2>
               {/* แทรกรูปภาพตรงนี้ */}
