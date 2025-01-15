@@ -1,7 +1,7 @@
 const Button = ({ variant = "main", children, onClick, className, href }) => {
     // กำหนดสไตล์ของแต่ละ variant
     const baseStyle =
-      "py-2.5 px-12 md:py-2.5 md:px-10 rounded-full text-2xl font-extrabold transition text-center drop-shadow-lg";
+      "py-2.5 px-12 md:py-2.5 md:px-10 rounded-full text-2xl font-semibold transition text-center drop-shadow-lg";
   
     const variants = {
       main: "bg-buttoncolormain text-terticolor hover:bg-opacity-90",

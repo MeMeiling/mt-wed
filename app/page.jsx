@@ -10,8 +10,8 @@ export default function Landing() {
         <h1 className="text-6xl md:text-7xl font-bold text-maincolor mb-4 text-center drop-shadow-lg">
           Meiling & Tul
         </h1>
-        <h3 className="text-3xl md:text-4xl font-medium text-maincolor mb-4 md:mb-10 text-center drop-shadow-lg">
-          Wedding Ceremony
+        <h3 className="text-3xl md:text-4xl font-medium text-[#81AABF] mb-4 md:mb-10 text-center drop-shadow-lg">
+          Kindly invite you to our wedding ceremony
         </h3>
         <div className="flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-4 justify-center items-center">
           <Button

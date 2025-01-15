@@ -6,6 +6,10 @@ body {
   background: white;
 }
 
+.font-sub {
+  font-family: 'Mali', sans-serif;
+}
+
 h1 {
   font-size: 80px;
   font-weight: 700;

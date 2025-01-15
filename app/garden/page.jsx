@@ -88,7 +88,7 @@ export default function FlowerGarden() {
                   className="w-32 h-32 mx-auto rounded-full mb-4 object-cover"
                 />
               */}
-              <h2 className="text-3xl font-bold text-seccolor text-center mb-4">
+              <h2 className="font-sub text-3xl font-bold text-seccolor text-center mb-4">
                 {selectedWish.name}
               </h2>
               {/* แทรกรูปภาพตรงนี้ */}
@@ -96,11 +96,11 @@ export default function FlowerGarden() {
                 src="/flowermock.png" 
                 className="w-32 h-32 mx-auto my-2" // ปรับขนาดรูป
               />
-              <p className="text-2xl text-seccolor text-center">" {selectedWish.message} "</p>
+              <p className="font-sub text-2xl text-seccolor text-center">" {selectedWish.message} "</p>
               <Button
                 variant="main" // ใช้ปุ่มแบบ main
                 onClick={handleCloseModal}
-                className="w-full my-4"
+                className="w-full mt-6"
               >
                 Close
               </Button>
