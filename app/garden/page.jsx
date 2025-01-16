@@ -96,7 +96,7 @@ export default function FlowerGarden() {
                 src="/flowermock.png" 
                 className="w-32 h-32 mx-auto my-2" // ปรับขนาดรูป
               />
-              <p className="font-sub text-2xl text-seccolor text-center">" {selectedWish.message} "</p>
+              <p className="font-sriracha text-2xl text-seccolor text-center">" {selectedWish.message} "</p>
               <Button
                 variant="main" // ใช้ปุ่มแบบ main
                 onClick={handleCloseModal}

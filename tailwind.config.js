@@ -16,8 +16,8 @@ const config: Config = {
         buttoncolorsub: "#D7B250", // ปุ่มรอง
       },
       fontFamily: {
-        caveat: ["Caveat", "sans-serif"], // ฟอนต์ Caveat
-        sriracha: ["Sriracha", "sans-serif"], // ฟอนต์ Sriracha
+        caveat: ['var(--caveat-font)', "sans-serif"], // ฟอนต์ Caveat
+        sriracha: ['var(--sriracha-font)', "sans-serif"], // ฟอนต์ Sriracha
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
