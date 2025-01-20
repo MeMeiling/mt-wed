@@ -16,17 +16,17 @@ export default function FlowerGarden() {
   const [showFlowers, setShowFlowers] = useState(true);
 
   // ขนาดของดอกไม้ (คงที่)
-  const flowerSize = 90;
-  const spacingMultiplier = 50; // เพิ่มระยะห่าง
-  const refreshInterval = 30000; // 30 วินาที (30,000 มิลลิวินาที)
+  const flowerSize = 100;
+  const spacingMultiplier = 300; // เพิ่มระยะห่าง
+  const refreshInterval = 25000; // 30 วินาที (30,000 มิลลิวินาที)
   const delayBetweenFlowers = 3000; // ระยะเวลาในการสุ่มแต่ละดอก (3 วินาที)
 
-  // ฟังก์ชันตรวจสอบการชนกัน (ห้ามทับพื้นที่ 90x90 px)
+  // ฟังก์ชันตรวจสอบการชนกัน 
   const isOverlapping = (newPos, existingPositions, minDistance) => {
     return existingPositions.some((pos) => {
       const dx = Math.abs(parseFloat(newPos.left) - parseFloat(pos.left));
       const dy = Math.abs(parseFloat(newPos.top) - parseFloat(pos.top));
-      return dx < minDistance && dy < minDistance; // ทดสอบการชนกันในระยะ +-90 px
+      return dx < minDistance && dy < minDistance; // ทดสอบการชนกัน
     });
   };
 
@@ -38,33 +38,46 @@ export default function FlowerGarden() {
 
     do {
       newPos = {
-        top: `${Math.random() * (100 - (flowerSize * 2) / window.innerHeight * 100)}%`,
-        left: `${Math.random() * (100 - (flowerSize * 2) / window.innerWidth * 100)}%`,
+        top: `${Math.random() * (100 - (flowerSize * 1) / window.innerHeight * 100)}%`,
+        left: `${Math.random() * (100 - (flowerSize * 1) / window.innerWidth * 100)}%`,
       };
       attempts++;
-    } while (isOverlapping(newPos, positions, flowerSize * 3) && attempts < 100); // ปรับระยะห่างเป็น +-90px
+    } while (isOverlapping(newPos, positions, flowerSize * 5) && attempts < 100); // ปรับระยะห่าง
 
     return newPos;
   };
 
+  // ฟังก์ชันสุ่มจำนวนดอกไม้ตามขนาดหน้าจอ
+  const getFlowerCount = () => {
+    if (window.innerWidth <= 768) {
+      return 20; // จอขนาดเล็ก
+    } else if (window.innerWidth <= 1024) {
+      return 36; // จอขนาดกลาง
+    } else {
+      return 60; // จอขนาดใหญ่
+    }
+  };
+
   useEffect(() => {
-    const newFlowerData = wishes.map((wish, index) => ({
+    const flowerCount = getFlowerCount();
+
+    const newFlowerData = wishes.slice(0, flowerCount).map((wish, index) => ({
       ...wish,
       position: generateFlowerPosition(), // สุ่มตำแหน่ง
-      image: `/flowers/flower-${Math.floor(Math.random() * 7) + 1}.svg`,
+      image: `/flowers/flower-${Math.floor(Math.random() * 10) + 1}.svg`, // เปลี่ยนเป็น flower-1 ถึง flower-10
     }));
     setFlowerData(newFlowerData);
 
     // ฟังก์ชันสุ่มตำแหน่งแต่ละดอก
     const randomizeFlowers = () => {
-      wishes.forEach((wish, index) => {
+      wishes.slice(0, flowerCount).forEach((wish, index) => {
         setTimeout(() => {
           setFlowerData((prevFlowerData) => {
             const updatedFlowers = [...prevFlowerData];
             updatedFlowers[index] = {
               ...updatedFlowers[index],
               position: generateFlowerPosition(),
-              image: `/flowers/flower-${Math.floor(Math.random() * 7) + 1}.svg`,
+              image: `/flowers/flower-${Math.floor(Math.random() * 10) + 1}.svg`,
             };
             return updatedFlowers;
           });
@@ -119,7 +132,11 @@ export default function FlowerGarden() {
             }}
             onClick={() => handleOpenModal(flower)}
           >
-            <img src={flower.image} alt="Flower" className="w-full h-full" />
+            <img
+              src={flower.image}
+              alt="Flower"
+              className="w-full h-full"
+            />
           </div>
         ))}
 
