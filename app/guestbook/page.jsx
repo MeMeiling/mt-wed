@@ -77,11 +77,11 @@ export default function Guestbook() {
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center px-4"
+      className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center px-4 relative"
       style={{ backgroundImage: "url('/bg2.jpg')" }}
     >
       {/* Back to Home Link */}
-      <div className="absolute bottom-4 left-4 z-50">
+      <div className="hidden md:block fixed bottom-4 left-4 z-50">
         <Link href="/" className="text-white text-3xl font-bold hover:underline">
           ← Back to home
         </Link>
@@ -89,7 +89,7 @@ export default function Guestbook() {
 
       <h1 className="text-4xl md:text-4xl font-bold text-maincolor mb-6">Leave Your Wishes</h1>
       {!isSubmitted ? (
-        <form onSubmit={handleSubmit} className="w-full max-w-md p-6 box-background">
+        <form onSubmit={handleSubmit} className="w-full max-w-md p-6 box-background relative">
           <div className="mb-4">
             <label className="block text-seccolor text-xl mb-2">Your Name</label>
             <input type="text" name="name" className="font-sriracha w-full input-field" required />
@@ -112,13 +112,20 @@ export default function Guestbook() {
           </Button>
         </form>
       ) : (
-        <div className="p-6 text-center box-background">
+        <div className="p-6 text-center box-background relative">
           <h2 className="text-3xl font-bold text-seccolor mb-4">Thank You, {submittedName}!</h2>
           <img src="/flowermock.png" className="w-32 h-32 mx-auto my-2" alt="Flower" />
           <p className="text-2xl text-seccolor mb-6">Your wishes have been successfully submitted.</p>
           <Button variant="main" onClick={handleGoToGarden}>Go to Garden</Button>
         </div>
       )}
+
+      {/* Mobile Back to Home Link */}
+      <div className="block md:hidden mt-6">
+        <Link href="/" className="text-white text-2xl font-bold hover:underline">
+          ← Back to home
+        </Link>
+      </div>
     </div>
   );
 }
