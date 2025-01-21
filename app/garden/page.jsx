@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Button from "/components/Button"; // Corrected import path
-import Link from "next/link"; // ใช้ Link ของ Next.js
+import Button from "/components/Button";
+import Link from "next/link";
 
 export default function FlowerGarden() {
   const wishes = Array.from({ length: 40 }, (_, index) => ({
@@ -14,23 +14,33 @@ export default function FlowerGarden() {
   const [selectedWish, setSelectedWish] = useState(null);
   const [flowerData, setFlowerData] = useState([]);
   const [showFlowers, setShowFlowers] = useState(true);
+  const [flowerSize, setFlowerSize] = useState(100);
 
-  // ขนาดของดอกไม้ (คงที่)
-  const flowerSize = 100;
-  const spacingMultiplier = 300; // เพิ่มระยะห่าง
-  const refreshInterval = 25000; // 30 วินาที (30,000 มิลลิวินาที)
-  const delayBetweenFlowers = 3000; // ระยะเวลาในการสุ่มแต่ละดอก (3 วินาที)
+  const refreshInterval = 25000;
+  const delayBetweenFlowers = 3000;
 
-  // ฟังก์ชันตรวจสอบการชนกัน 
-  const isOverlapping = (newPos, existingPositions, minDistance) => {
-    return existingPositions.some((pos) => {
-      const dx = Math.abs(parseFloat(newPos.left) - parseFloat(pos.left));
-      const dy = Math.abs(parseFloat(newPos.top) - parseFloat(pos.top));
-      return dx < minDistance && dy < minDistance; // ทดสอบการชนกัน
-    });
+  // ฟังก์ชันสุ่มจำนวนดอกไม้ตามขนาดหน้าจอ
+  const getFlowerCount = () => {
+    if (window.innerWidth <= 768) {
+      return 22; // จอขนาดเล็ก
+    } else if (window.innerWidth <= 1024) {
+      return 42; // จอขนาดกลาง
+    } else {
+      return 62; // จอขนาดใหญ่
+    }
   };
 
-  // ฟังก์ชันสุ่มตำแหน่งใหม่
+  // ฟังก์ชันปรับขนาดดอกไม้ตามขนาดหน้าจอ
+  useEffect(() => {
+    const updateFlowerSize = () => {
+      setFlowerSize(window.innerWidth <= 768 ? 80 : 100);
+    };
+
+    updateFlowerSize();
+    window.addEventListener("resize", updateFlowerSize);
+    return () => window.removeEventListener("resize", updateFlowerSize);
+  }, []);
+
   const generateFlowerPosition = () => {
     let newPos;
     let attempts = 0;
@@ -38,77 +48,43 @@ export default function FlowerGarden() {
 
     do {
       newPos = {
-        top: `${Math.random() * (100 - (flowerSize * 1) / window.innerHeight * 100)}%`,
-        left: `${Math.random() * (100 - (flowerSize * 1) / window.innerWidth * 100)}%`,
+        top: `${Math.random() * (100 - (flowerSize / window.innerHeight) * 100)}%`,
+        left: `${Math.random() * (100 - (flowerSize / window.innerWidth) * 100)}%`,
       };
       attempts++;
-    } while (isOverlapping(newPos, positions, flowerSize * 5) && attempts < 100); // ปรับระยะห่าง
+    } while (positions.some(pos => {
+      const dx = Math.abs(parseFloat(newPos.left) - parseFloat(pos.left));
+      const dy = Math.abs(parseFloat(newPos.top) - parseFloat(pos.top));
+      return dx < flowerSize * 5 && dy < flowerSize * 5;
+    }) && attempts < 100);
 
     return newPos;
-  };
-
-  // ฟังก์ชันสุ่มจำนวนดอกไม้ตามขนาดหน้าจอ
-  const getFlowerCount = () => {
-    if (window.innerWidth <= 768) {
-      return 20; // จอขนาดเล็ก
-    } else if (window.innerWidth <= 1024) {
-      return 36; // จอขนาดกลาง
-    } else {
-      return 60; // จอขนาดใหญ่
-    }
   };
 
   useEffect(() => {
     const flowerCount = getFlowerCount();
 
-    const newFlowerData = wishes.slice(0, flowerCount).map((wish, index) => ({
+    const newFlowerData = wishes.slice(0, flowerCount).map(wish => ({
       ...wish,
-      position: generateFlowerPosition(), // สุ่มตำแหน่ง
-      image: `/flowers/flower-${Math.floor(Math.random() * 10) + 1}.svg`, // เปลี่ยนเป็น flower-1 ถึง flower-10
+      position: generateFlowerPosition(),
+      image: `/flowers/flower-${Math.floor(Math.random() * 10) + 1}.svg`,
     }));
     setFlowerData(newFlowerData);
 
-    // ฟังก์ชันสุ่มตำแหน่งแต่ละดอก
-    const randomizeFlowers = () => {
-      wishes.slice(0, flowerCount).forEach((wish, index) => {
-        setTimeout(() => {
-          setFlowerData((prevFlowerData) => {
-            const updatedFlowers = [...prevFlowerData];
-            updatedFlowers[index] = {
-              ...updatedFlowers[index],
-              position: generateFlowerPosition(),
-              image: `/flowers/flower-${Math.floor(Math.random() * 10) + 1}.svg`,
-            };
-            return updatedFlowers;
-          });
-        }, index * delayBetweenFlowers);
-      });
-    };
-
-    // เรียกใช้การสุ่มตำแหน่งดอกไม้ทุกๆ 30 วินาที
     const interval = setInterval(() => {
-      randomizeFlowers(); // สุ่มตำแหน่งทุกๆ 30 วินาที
+      setFlowerData(prevFlowerData =>
+        prevFlowerData.map(flower => ({
+          ...flower,
+          position: generateFlowerPosition(),
+        }))
+      );
     }, refreshInterval);
 
-    randomizeFlowers(); // เรียกใช้สุ่มตำแหน่งดอกไม้ครั้งแรก
-
-    return () => clearInterval(interval); // ล้าง interval เมื่อออกจากหน้า
-  }, []);
-
-  const handleOpenModal = (flower) => {
-    setSelectedWish(flower);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedWish(null);
-  };
+    return () => clearInterval(interval);
+  }, [flowerSize]);
 
   return (
-    <div
-      className="h-screen bg-cover bg-center relative"
-      style={{ backgroundImage: "url('/bg3.jpg')" }}
-    >
-      {/* Back to Home */}
+    <div className="h-screen bg-cover bg-center relative" style={{ backgroundImage: "url('/bg3.jpg')" }}>
       <div className="absolute bottom-4 left-4 z-50">
         <Link href="/" className="text-white text-3xl font-bold hover:underline">
           ← Back to home
@@ -120,7 +96,6 @@ export default function FlowerGarden() {
           Flower Garden
         </h1>
 
-        {/* แสดงดอกไม้ทั้งหมด */}
         {showFlowers && flowerData.map((flower) => (
           <div
             key={flower.id}
@@ -130,31 +105,23 @@ export default function FlowerGarden() {
               width: `${flowerSize}px`,
               height: `${flowerSize}px`,
             }}
-            onClick={() => handleOpenModal(flower)}
+            onClick={() => setSelectedWish(flower)}
           >
-            <img
-              src={flower.image}
-              alt="Flower"
-              className="w-full h-full"
-            />
+            <img src={flower.image} alt="Flower" className="w-full h-full" />
           </div>
         ))}
 
-        {/* Modal */}
         {selectedWish && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full relative box-background">
               <h2 className="text-3xl font-bold text-seccolor text-center mb-4">
                 {selectedWish.name}
               </h2>
-              <img
-                src={selectedWish.image}
-                className="w-32 h-32 mx-auto my-2"
-              />
+              <img src={selectedWish.image} className="w-32 h-32 mx-auto my-2" />
               <p className="font-sriracha text-2xl text-seccolor text-center">
                 " {selectedWish.message} "
               </p>
-              <Button variant="main" onClick={handleCloseModal} className="w-full mt-6">
+              <Button variant="main" onClick={() => setSelectedWish(null)} className="w-full mt-6">
                 Close
               </Button>
             </div>
