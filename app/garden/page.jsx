@@ -5,29 +5,34 @@ import Button from "/components/Button";
 import Link from "next/link";
 
 export default function FlowerGarden() {
-  const wishes = Array.from({ length: 40 }, (_, index) => ({
+  // สร้างอาร์เรย์ของคำอวยพรจำนวน 100 รายการ โดยแต่ละรายการมี id, ชื่อ และข้อความ
+  const wishes = Array.from({ length: 100 }, (_, index) => ({
     id: index + 1,
     name: `Name ${index + 1}`,
     message: `ข้อความจาก ${index + 1}`,
   }));
 
+  // ใช้ useState เพื่อจัดการสถานะของดอกไม้ที่แสดง และการเลือกคำอวยพร
   const [selectedWish, setSelectedWish] = useState(null);
   const [flowerData, setFlowerData] = useState([]);
   const [flowerSize, setFlowerSize] = useState(100);
 
-  const refreshInterval = 25000;
-  const delayBetweenFlowers = 3000;
+  // กำหนดค่า refreshInterval และ delayBetweenFlowers
+  const refreshInterval = 25000; // ทุก 25 วินาที ระบบจะสุ่มตำแหน่งใหม่ทีละดอก
+  const delayBetweenFlowers = 2000; // หน่วงเวลา 2 วินาทีต่อการเปลี่ยนดอกไม้หนึ่งดอก
 
+  // ฟังก์ชันกำหนดจำนวนดอกไม้ที่จะแสดงขึ้นอยู่กับขนาดหน้าจอ
   const getFlowerCount = () => {
     if (window.innerWidth <= 768) {
-      return 22;
+      return 22; // หน้าจอเล็ก
     } else if (window.innerWidth <= 1024) {
-      return 42;
+      return 42; // หน้าจอกลาง
     } else {
-      return 62;
+      return 60; // หน้าจอใหญ่
     }
   };
 
+  // อัปเดตขนาดดอกไม้เมื่อขนาดหน้าจอเปลี่ยนแปลง
   useEffect(() => {
     const updateFlowerSize = () => {
       setFlowerSize(window.innerWidth <= 768 ? 80 : 100);
@@ -38,13 +43,22 @@ export default function FlowerGarden() {
     return () => window.removeEventListener("resize", updateFlowerSize);
   }, []);
 
+  // ฟังก์ชันสุ่มตำแหน่งดอกไม้แบบสุ่มในพื้นที่ที่กำหนด
   const generateFlowerPosition = () => {
-    return {
-      top: `${Math.random() * 80}%`,
-      left: `${Math.random() * 80}%`,
-    };
-  };
+    if (window.innerWidth <= 768) {
+      return {
+        top: `${Math.random() * 85}%`,
+        left: `${Math.random() * 80}%`,
+      };
+    } else {
+      return {
+        top: `${Math.random() * 90}%`,
+        left: `${Math.random() * 95}%`,
+      };
+    }
+  };  
 
+  // ตั้งค่าข้อมูลเริ่มต้นของดอกไม้และทำให้แต่ละดอกเคลื่อนที่ทีละดอก
   useEffect(() => {
     const flowerCount = getFlowerCount();
     let newFlowerData = wishes.slice(0, flowerCount).map(wish => ({
@@ -60,7 +74,7 @@ export default function FlowerGarden() {
       setFlowerData(prevFlowers =>
         prevFlowers.map((flower, index) =>
           index === currentIndex
-            ? { ...flower, visible: false }
+            ? { ...flower, visible: false } // ทำให้ดอกไม้หายไปก่อนเปลี่ยนตำแหน่ง
             : flower
         )
       );
@@ -68,11 +82,11 @@ export default function FlowerGarden() {
         setFlowerData(prevFlowers =>
           prevFlowers.map((flower, index) =>
             index === currentIndex
-              ? { ...flower, position: generateFlowerPosition(), visible: true }
+              ? { ...flower, position: generateFlowerPosition(), visible: true } // เปลี่ยนตำแหน่งและทำให้ดอกไม้ปรากฏอีกครั้ง
               : flower
           )
         );
-      }, 500);
+      }, 500); // หน่วงเวลาก่อนให้ดอกไม้กลับมาแสดง
       currentIndex = (currentIndex + 1) % flowerCount;
     }, delayBetweenFlowers);
 
@@ -81,6 +95,7 @@ export default function FlowerGarden() {
 
   return (
     <div className="h-screen bg-cover bg-center relative" style={{ backgroundImage: "url('/bg3.jpg')" }}>
+      {/* ปุ่มย้อนกลับไปหน้าแรก */}
       <div className="absolute bottom-4 left-4 z-50">
         <Link href="/" className="text-white text-3xl font-bold hover:underline">
           ← Back to home
@@ -92,6 +107,7 @@ export default function FlowerGarden() {
           Flower Garden
         </h1>
 
+        {/* แสดงดอกไม้ทั้งหมด */}
         {flowerData.map(flower => (
           <div
             key={flower.id}
@@ -107,6 +123,7 @@ export default function FlowerGarden() {
           </div>
         ))}
 
+        {/* แสดงป๊อปอัพคำอวยพรเมื่อเลือกดอกไม้ */}
         {selectedWish && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full relative box-background">
