@@ -13,24 +13,21 @@ export default function FlowerGarden() {
 
   const [selectedWish, setSelectedWish] = useState(null);
   const [flowerData, setFlowerData] = useState([]);
-  const [showFlowers, setShowFlowers] = useState(true);
   const [flowerSize, setFlowerSize] = useState(100);
 
   const refreshInterval = 25000;
   const delayBetweenFlowers = 3000;
 
-  // ฟังก์ชันสุ่มจำนวนดอกไม้ตามขนาดหน้าจอ
   const getFlowerCount = () => {
     if (window.innerWidth <= 768) {
-      return 22; // จอขนาดเล็ก
+      return 22;
     } else if (window.innerWidth <= 1024) {
-      return 42; // จอขนาดกลาง
+      return 42;
     } else {
-      return 62; // จอขนาดใหญ่
+      return 62;
     }
   };
 
-  // ฟังก์ชันปรับขนาดดอกไม้ตามขนาดหน้าจอ
   useEffect(() => {
     const updateFlowerSize = () => {
       setFlowerSize(window.innerWidth <= 768 ? 80 : 100);
@@ -42,43 +39,42 @@ export default function FlowerGarden() {
   }, []);
 
   const generateFlowerPosition = () => {
-    let newPos;
-    let attempts = 0;
-    let positions = flowerData.map(flower => flower.position);
-
-    do {
-      newPos = {
-        top: `${Math.random() * (100 - (flowerSize / window.innerHeight) * 100)}%`,
-        left: `${Math.random() * (100 - (flowerSize / window.innerWidth) * 100)}%`,
-      };
-      attempts++;
-    } while (positions.some(pos => {
-      const dx = Math.abs(parseFloat(newPos.left) - parseFloat(pos.left));
-      const dy = Math.abs(parseFloat(newPos.top) - parseFloat(pos.top));
-      return dx < flowerSize * 5 && dy < flowerSize * 5;
-    }) && attempts < 100);
-
-    return newPos;
+    return {
+      top: `${Math.random() * 80}%`,
+      left: `${Math.random() * 80}%`,
+    };
   };
 
   useEffect(() => {
     const flowerCount = getFlowerCount();
-
-    const newFlowerData = wishes.slice(0, flowerCount).map(wish => ({
+    let newFlowerData = wishes.slice(0, flowerCount).map(wish => ({
       ...wish,
       position: generateFlowerPosition(),
       image: `/flowers/flower-${Math.floor(Math.random() * 10) + 1}.svg`,
+      visible: true,
     }));
     setFlowerData(newFlowerData);
 
+    let currentIndex = 0;
     const interval = setInterval(() => {
-      setFlowerData(prevFlowerData =>
-        prevFlowerData.map(flower => ({
-          ...flower,
-          position: generateFlowerPosition(),
-        }))
+      setFlowerData(prevFlowers =>
+        prevFlowers.map((flower, index) =>
+          index === currentIndex
+            ? { ...flower, visible: false }
+            : flower
+        )
       );
-    }, refreshInterval);
+      setTimeout(() => {
+        setFlowerData(prevFlowers =>
+          prevFlowers.map((flower, index) =>
+            index === currentIndex
+              ? { ...flower, position: generateFlowerPosition(), visible: true }
+              : flower
+          )
+        );
+      }, 500);
+      currentIndex = (currentIndex + 1) % flowerCount;
+    }, delayBetweenFlowers);
 
     return () => clearInterval(interval);
   }, [flowerSize]);
@@ -96,10 +92,10 @@ export default function FlowerGarden() {
           Flower Garden
         </h1>
 
-        {showFlowers && flowerData.map((flower) => (
+        {flowerData.map(flower => (
           <div
             key={flower.id}
-            className="absolute cursor-pointer transition-opacity duration-150 ease-out"
+            className={`absolute cursor-pointer transition-opacity duration-500 ease-in-out ${flower.visible ? 'opacity-100' : 'opacity-0'}`}
             style={{
               ...flower.position,
               width: `${flowerSize}px`,
