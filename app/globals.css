@@ -92,4 +92,7 @@ body4 {
   outline: none; /* ลบเส้นขอบที่เพิ่มขึ้นมาโดย default */
 }
 
+.text-shadow-lg {
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
 

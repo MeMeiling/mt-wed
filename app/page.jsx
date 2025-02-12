@@ -1,6 +1,13 @@
+"use client";
+
+import { useState } from "react";
 import Button from "../components/Button";
+import QRModal from "../components/QRModal";
+
 
 export default function Landing() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div
       className="h-screen bg-cover bg-center"
@@ -30,6 +37,18 @@ export default function Landing() {
           </Button>
         </div>
       </div>
+
+      {/* ปุ่ม "อยากใส่ซอง" */}
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="fixed bottom-5 left-1/2 transform -translate-x-1/2 text-white text-lg hover:shadow-xl"
+        >
+        <span className="text-shadow-lg font-sriracha">อยากใส่ซอง กดเลยยย</span>
+      </button>
+
+      {/* Popup QR Modal */}
+      <QRModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        
     </div>
   );
 }
