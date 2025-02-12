@@ -42,13 +42,17 @@ export default function Landing() {
       <button
         onClick={() => setIsModalOpen(true)}
         className="fixed bottom-5 left-1/2 transform -translate-x-1/2 text-white text-lg hover:shadow-xl"
-        >
-        <span className="text-shadow-lg font-sriracha">อยากใส่ซอง กดเลยยย</span>
+      >
+        <span className="text-shadow-lg font-sriracha flex items-center whitespace-nowrap">
+          อยากใส่ซอง กดเลยยย
+          <img src="/songicon.svg" alt="Song Icon" className="ml-2 w-8 h-8 mb-2" />
+        </span>
       </button>
+
 
       {/* Popup QR Modal */}
       <QRModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-        
+
     </div>
   );
 }
