@@ -7,10 +7,12 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { collection, addDoc } from "firebase/firestore";
 import Button from "/components/Button";
 import Link from "next/link"; // Don't forget to import Link
+import Compressor from 'compressorjs'; // นำเข้าคลาส Compressor.js
 
 export default function Guestbook() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submittedName, setSubmittedName] = useState("");
+  const [submittedMessage, setSubmittedMessage] = useState(""); 
   const [imageFile, setImageFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -19,8 +21,17 @@ export default function Guestbook() {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImageFile(file);
-      setPreviewImage(URL.createObjectURL(file));
+      // บีบอัดภาพก่อนอัปโหลด
+      new Compressor(file, {
+        quality: 0.6, // ลดคุณภาพลงเหลือ 60% (ปรับได้ตามต้องการ)
+        success(result) {
+          setImageFile(result); // ตั้งค่าภาพที่บีบอัดแล้ว
+          setPreviewImage(URL.createObjectURL(result)); // แสดงภาพตัวอย่าง
+        },
+        error(err) {
+          console.error("🚨 Compression Error:", err);
+        }
+      });
     }
   };
 
@@ -32,6 +43,7 @@ export default function Guestbook() {
     const name = formData.get("name");
     const message = formData.get("message");
     setSubmittedName(name);
+    setSubmittedMessage(message);
 
     let imageUrl = null;
     try {
@@ -113,8 +125,22 @@ export default function Guestbook() {
         </form>
       ) : (
         <div className="p-6 text-center box-background relative">
-          <h2 className="text-3xl font-bold text-seccolor mb-4">Thank You, {submittedName}!</h2>
-          <img src="/flowermock.png" className="w-32 h-32 mx-auto my-2" alt="Flower" />
+          <h2 className="text-3xl font-sriracha font-bold text-maincolor mb-4">Thank You, {submittedName}!</h2>
+          <div className="relative w-40 h-40 mx-auto my-2">
+            <img
+              src={`/flowers/flower-${Math.floor(Math.random() * 10) + 1}.svg`}
+              className="w-full h-full"
+              alt="Flower"
+            />
+            {previewImage && (
+              <img
+                src={previewImage}
+                className="absolute top-[calc(50%-6px)] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full border-2 border-white shadow-lg"
+                alt="Uploaded"
+              />
+            )}
+          </div>
+          <p className="text-lg font-sriracha text-seccolor mb-4">"{submittedMessage}"</p>
           <p className="text-2xl text-seccolor mb-6">Your wishes have been successfully submitted.</p>
           <Button variant="main" onClick={handleGoToGarden}>Go to Garden</Button>
         </div>

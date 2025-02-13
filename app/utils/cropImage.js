@@ -1,39 +1,36 @@
-export default function getCroppedImg(imageSrc, pixelCrop) {
-    const image = new Image();
-    image.src = imageSrc;
-  
-    return new Promise((resolve, reject) => {
-      image.onload = () => {
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-  
-        const scaleX = image.naturalWidth / image.width;
-        const scaleY = image.naturalHeight / image.height;
-  
-        canvas.width = pixelCrop.width;
-        canvas.height = pixelCrop.height;
-  
-        ctx.drawImage(
-          image,
-          pixelCrop.x * scaleX,
-          pixelCrop.y * scaleY,
-          pixelCrop.width * scaleX,
-          pixelCrop.height * scaleY,
-          0,
-          0,
-          pixelCrop.width,
-          pixelCrop.height
-        );
-  
-        // สร้าง base64 URL ของภาพที่ครอป
-        const base64Image = canvas.toDataURL("image/jpeg");
-        resolve(base64Image); // คืนค่าภาพที่ครอปแล้วเป็น base64
-      };
-  
-      image.onerror = (error) => {
-        reject(error);
-      };
-    });
-  }
+import createImage from "./createImage";
 
-  
+const getCroppedImg = async (imageSrc, croppedAreaPixels) => {
+  const image = await createImage(imageSrc);
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = croppedAreaPixels.width;
+  canvas.height = croppedAreaPixels.height;
+
+  ctx.drawImage(
+    image,
+    croppedAreaPixels.x,
+    croppedAreaPixels.y,
+    croppedAreaPixels.width,
+    croppedAreaPixels.height,
+    0,
+    0,
+    croppedAreaPixels.width,
+    croppedAreaPixels.height
+  );
+
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        reject(new Error("Canvas toBlob failed"));
+        return;
+      }
+
+      const file = new File([blob], "cropped-image.jpg", { type: "image/jpeg" });
+      resolve(file);
+    }, "image/jpeg");
+  });
+};
+
+export default getCroppedImg;
