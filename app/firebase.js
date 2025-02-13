@@ -8,10 +8,10 @@ const firebaseConfig = {
   apiKey: "AIzaSyBMnIVIJsx0CxvPufybn1jyC0oWiny3Q0w",
   authDomain: "mt-wed.firebaseapp.com",
   projectId: "mt-wed",
-  storageBucket: "mt-wed.appspot.com",
+  storageBucket: "mt-wed.firebasestorage.app",
   messagingSenderId: "237589215055",
   appId: "1:237589215055:web:633d8ae7c388a67ff8373a",
-  measurementId: "G-YN23V6DMHZ",
+  measurementId: "G-YN23V6DMHZ"
 };
 
 // Initialize Firebase
@@ -25,3 +25,5 @@ const storage = getStorage(app);
 
 // Export instances for use in other files
 export { db, storage };
+
+
