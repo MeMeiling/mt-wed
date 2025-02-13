@@ -1,11 +1,12 @@
-const createImage = (url) =>
-    new Promise((resolve, reject) => {
+const createImage = (url) => {
+    return new Promise((resolve, reject) => {
       const img = new Image();
-      img.crossOrigin = "anonymous"; // รองรับการโหลดภาพจากแหล่งที่มาอื่น
+      img.crossOrigin = "anonymous"; // ป้องกัน CORS error ถ้าใช้ external image
+      img.src = url;
       img.onload = () => resolve(img);
       img.onerror = (error) => reject(error);
-      img.src = url;
     });
+  };
   
   export default createImage;
   
