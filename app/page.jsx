@@ -38,17 +38,28 @@ export default function Landing() {
         </div>
       </div>
 
-      {/* ปุ่ม "อยากใส่ซอง" */}
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="fixed bottom-5 left-1/2 transform -translate-x-1/2 text-white text-lg hover:shadow-xl"
-      >
-        <span className="text-shadow-lg font-sriracha flex items-center whitespace-nowrap">
-          ใส่ซอง 
-          <img src="/songicon.svg" alt="Song Icon" className="ml-2 w-8 h-8 mb-2" />
-        </span>
-      </button>
+      <div className="fixed bottom-5 left-0 right-0 mx-6 flex justify-between items-center">
+        {/* ปุ่ม "อยากใส่ซอง" */}
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="text-white text-lg hover:shadow-xl"
+        >
+          <span className="text-shadow-lg font-sriracha flex items-center whitespace-nowrap">
+            ส่งใจ ใส่ซอง
+            <img src="/songicon.svg" alt="Song Icon" className="ml-2 w-8 h-8 mb-2" />
+          </span>
+        </button>
 
+        {/* Text Link ไป Instagram Hashtag */}
+        <a
+          href="https://www.instagram.com/explore/tags/meitulwedding/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-white text-2xl font-bold hover:underline"
+        >
+          Lurk in #meitulwedding
+        </a>
+      </div>
 
       {/* Popup QR Modal */}
       <QRModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />

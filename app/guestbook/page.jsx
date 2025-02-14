@@ -10,6 +10,8 @@ import Link from "next/link";
 import Compressor from "compressorjs";
 import Cropper from "react-easy-crop"; // ใช้สำหรับ crop รูป
 import getCroppedImg from "../utils/cropImage"; // ฟังก์ชันช่วยตัดรูป
+import QRModal from "/components/QRModal";
+
 
 export default function Guestbook() {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -23,6 +25,7 @@ export default function Guestbook() {
   const [previewImage, setPreviewImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -96,6 +99,7 @@ export default function Guestbook() {
       className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center px-4 relative"
       style={{ backgroundImage: "url('/bg2.jpg')" }}
     >
+
       <h1 className="text-4xl md:text-4xl font-bold text-maincolor mb-6">Leave Your Wishes</h1>
 
       {!isSubmitted ? (
@@ -141,12 +145,45 @@ export default function Guestbook() {
             )}
           </div>
           <p className="text-lg font-sriracha text-seccolor mb-4">"{submittedMessage}"</p>
-          <p className="text-2xl text-maincolor mb-6">Your wishes have been successfully submitted.</p>
+          <p className="md:text-2xl text-2xl font-bold text-maincolor mb-6">Your wishes have been successfully submitted.</p>
           <Button variant="main" onClick={() => router.push("/garden")}>
             Go to Garden
           </Button>
         </div>
       )}
+      {/* Mobile Back to Home Link */}
+      <div className="block mt-6">
+        <Link href="/" className="text-white text-3xl font-bold hover:underline">
+          ← Back to home
+        </Link>
+      </div>
+
+      <div className="fixed bottom-5 left-0 right-0 mx-6 flex justify-between items-center">
+        {/* ปุ่ม "อยากใส่ซอง" */}
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="text-white text-lg hover:shadow-xl"
+        >
+          <span className="text-shadow-lg font-sriracha flex items-center whitespace-nowrap">
+            ส่งใจ ใส่ซอง
+            <img src="/songicon.svg" alt="Song Icon" className="ml-2 w-8 h-8 mb-2" />
+          </span>
+        </button>
+
+        {/* Text Link ไป Instagram Hashtag */}
+        <a
+          href="https://www.instagram.com/explore/tags/meitulwedding/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-white text-2xl font-bold hover:underline"
+        >
+          Lurk in #meitulwedding
+        </a>
+      </div>
+      
+      {/* Popup QR Modal */}
+      <QRModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
     </div>
   );
 }

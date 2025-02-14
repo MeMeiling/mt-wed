@@ -30,7 +30,7 @@ export default function FlowerGarden() {
 
   useEffect(() => {
     const updateFlowerSize = () => {
-      setFlowerSize(window.innerWidth <= 768 ? 80 : 100);
+      setFlowerSize(window.innerWidth <= 768 ? 100 : 120);
     };
     updateFlowerSize();
     window.addEventListener("resize", updateFlowerSize);
@@ -38,11 +38,14 @@ export default function FlowerGarden() {
   }, []);
 
   const generateFlowerPosition = () => {
+    const maxPercentage = window.innerWidth < 640 ? 80 : 85; // ถ้าหน้าจอเล็ก (<640px) ใช้ 80% ถ้าหน้าจอใหญ่ ใช้ 85%
+  
     return {
-      top: `${Math.random() * 85}%`,
-      left: `${Math.random() * 85}%`,
+      top: `${Math.random() * maxPercentage}%`,
+      left: `${Math.random() * maxPercentage}%`,
     };
   };
+  
 
   useEffect(() => {
     const flowerCount = getFlowerCount();
@@ -104,7 +107,7 @@ export default function FlowerGarden() {
             <div className="relative w-full h-full">
               <img src={flower.image} alt="Flower" className="w-full h-full" />
               {flower.imageUrl && (
-                <img src={flower.imageUrl} className="absolute top-[calc(50%-4px)] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full border-2 border-white shadow-lg" alt="Wish Image" />
+                <img src={flower.imageUrl} className="absolute top-[calc(50%-4px)] left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:w-14 md:h-14 w-12 h-12 rounded-full border-2 border-white shadow-lg" alt="Wish Image" />
               )}
             </div>
           </div>
@@ -112,14 +115,14 @@ export default function FlowerGarden() {
         {selectedWish && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full relative box-background">
-              <h2 className="text-3xl font-bold text-seccolor text-center mb-4">{selectedWish.name}</h2>
+              <h2 className="text-3xl font-sriracha font-bold text-seccolor text-center mb-4">{selectedWish.name}</h2>
 
               <div className="relative"> {/* เพิ่ม relative ที่นี่ */}
                 {/* รูปภาพของผู้ใช้งานในรูปแบบวงกลม */}
                 {selectedWish.imageUrl && (
                   <img
                     src={selectedWish.imageUrl}
-                    className="absolute top-[calc(50%-8px)] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full border-2 border-white shadow-lg"
+                    className="absolute top-[calc(50%-4px)] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full border-2 border-white shadow-lg"
                     alt="Wish Image"
                   />
                 )}
