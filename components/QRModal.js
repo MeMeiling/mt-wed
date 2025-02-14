@@ -15,7 +15,7 @@ export default function QRModal({ isOpen, onClose }) {
                     <br />
                     xxx-x-x1596-x
                 </span>
-                <h2 className="font-sriracha text-2xl font-bold my-4">ขอบคุณนะ 🥺</h2>
+                <h2 className="font-sriracha text-2xl font-bold my-4">ขอบคุณนะ 🥹</h2>
             </div>
         </div>
     );
