@@ -99,66 +99,69 @@ export default function Guestbook() {
       className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center px-4 relative"
       style={{ backgroundImage: "url('/bg2.jpg')" }}
     >
+      <div className="flex-1 flex flex-col my-10 items-center justify-center w-full">
 
-      <h1 className="text-4xl md:text-4xl font-bold text-maincolor mb-6">Leave Your Wishes</h1>
+        <h1 className="text-4xl md:text-4xl font-bold text-maincolor mb-6">Leave Your Wishes</h1>
 
-      {!isSubmitted ? (
-        <form onSubmit={handleSubmit} className="w-full max-w-md p-6 box-background relative">
-          <div className="mb-4">
-            <label className="block text-seccolor text-xl mb-2">Your Name</label>
-            <input type="text" name="name" className="font-sriracha w-full input-field" required />
-          </div>
-          <div className="mb-4">
-            <label className="block text-seccolor text-xl mb-2">Your Message</label>
-            <textarea name="message" className="font-sriracha w-full input-field" rows="4" required></textarea>
-          </div>
-          <div className="mb-4">
-            <label className="block text-seccolor text-xl mb-2">Your Image (Please zoom in to your face!) </label>
-            <input type="file" accept="image/*" className="w-full input-field" onChange={handleFileChange} />
-          </div>
-
-          {imageSrc && (
-            <div className="relative w-full h-64 bg-gray-200">
-              <Cropper
-                image={imageSrc}
-                crop={crop}
-                zoom={zoom}
-                aspect={1} // สี่เหลี่ยมจัตุรัส
-                onCropChange={setCrop}
-                onZoomChange={setZoom}
-                onCropComplete={onCropComplete}
-              />
+        {!isSubmitted ? (
+          <form onSubmit={handleSubmit} className="w-full max-w-md p-6 box-background relative">
+            <div className="mb-4">
+              <label className="block text-seccolor text-xl mb-2">Your Name</label>
+              <input type="text" name="name" className="font-sriracha w-full input-field" required />
             </div>
-          )}
+            <div className="mb-4">
+              <label className="block text-seccolor text-xl mb-2">Your Message</label>
+              <textarea name="message" className="font-sriracha w-full input-field" rows="4" required></textarea>
+            </div>
+            <div className="mb-4">
+              <label className="block text-seccolor text-xl mb-2">Your Image (Please zoom in to your face!) </label>
+              <input type="file" accept="image/*" className="w-full input-field" onChange={handleFileChange} />
+            </div>
 
-          <Button type="submit" variant="main" className="w-full my-4" disabled={isUploading}>
-            {isUploading ? "Submitting..." : "Submit"}
-          </Button>
-        </form>
-      ) : (
-        <div className="p-6 text-center box-background relative">
-          <h2 className="text-3xl font-sriracha font-bold text-maincolor mb-4">Thank You, {submittedName}!</h2>
-          <div className="relative w-40 h-40 mx-auto my-2">
-            <img src={`/flowers/flower-${Math.floor(Math.random() * 10) + 1}.svg`} className="w-full h-full" alt="Flower" />
-            {previewImage && (
-              <img src={previewImage} className="absolute top-[calc(50%-6px)] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full border-2 border-white shadow-lg" alt="Uploaded" />
+            {imageSrc && (
+              <div className="relative w-full h-64 bg-gray-200">
+                <Cropper
+                  image={imageSrc}
+                  crop={crop}
+                  zoom={zoom}
+                  aspect={1} // สี่เหลี่ยมจัตุรัส
+                  onCropChange={setCrop}
+                  onZoomChange={setZoom}
+                  onCropComplete={onCropComplete}
+                />
+              </div>
             )}
+
+            <Button type="submit" variant="main" className="w-full my-4" disabled={isUploading}>
+              {isUploading ? "Submitting..." : "Submit"}
+            </Button>
+          </form>
+        ) : (
+          <div className="p-6 text-center box-background relative">
+            <h2 className="text-3xl font-sriracha font-bold text-maincolor mb-4">Thank You, {submittedName}!</h2>
+            <div className="relative w-40 h-40 mx-auto my-2">
+              <img src={`/flowers/flower-${Math.floor(Math.random() * 10) + 1}.svg`} className="w-full h-full" alt="Flower" />
+              {previewImage && (
+                <img src={previewImage} className="absolute top-[calc(50%-6px)] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full border-2 border-white shadow-lg" alt="Uploaded" />
+              )}
+            </div>
+            <p className="text-lg font-sriracha text-seccolor mb-4">"{submittedMessage}"</p>
+            <p className="md:text-2xl text-2xl font-bold text-maincolor mb-6">Your wishes have been successfully submitted.</p>
+            <Button variant="main" onClick={() => router.push("/garden")}>
+              Go to Garden
+            </Button>
           </div>
-          <p className="text-lg font-sriracha text-seccolor mb-4">"{submittedMessage}"</p>
-          <p className="md:text-2xl text-2xl font-bold text-maincolor mb-6">Your wishes have been successfully submitted.</p>
-          <Button variant="main" onClick={() => router.push("/garden")}>
-            Go to Garden
-          </Button>
+        )}
+
+        {/* Mobile Back to Home Link */}
+        <div className="block mt-6">
+          <Link href="/" className="text-white text-3xl font-bold hover:underline">
+            ← Back to home
+          </Link>
         </div>
-      )}
-      {/* Mobile Back to Home Link */}
-      <div className="block mt-6">
-        <Link href="/" className="text-white text-3xl font-bold hover:underline">
-          ← Back to home
-        </Link>
       </div>
 
-      <div className="fixed bottom-5 left-0 right-0 mx-6 flex justify-between items-center">
+      <div className="w-full mb-4 bottom-5 left-0 right-0 mx-6 flex justify-between items-center">
         {/* ปุ่ม "อยากใส่ซอง" */}
         <button
           onClick={() => setIsModalOpen(true)}
@@ -180,7 +183,7 @@ export default function Guestbook() {
           Lurk in #meitulwedding
         </a>
       </div>
-      
+
       {/* Popup QR Modal */}
       <QRModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
