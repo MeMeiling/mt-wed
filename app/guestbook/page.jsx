@@ -161,7 +161,7 @@ export default function Guestbook() {
         </div>
       </div>
 
-      <div className="w-full mb-4 bottom-5 left-0 right-0 mx-6 flex justify-between items-center">
+      <div className="w-full mb-4 bottom-5 left-0 right-0 md:px-14 px-0 flex justify-between items-center">
         {/* ปุ่ม "อยากใส่ซอง" */}
         <button
           onClick={() => setIsModalOpen(true)}

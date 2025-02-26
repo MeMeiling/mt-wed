@@ -17,14 +17,16 @@ export default function FlowerGarden() {
       const wishesCollection = collection(db, "wishes");
       const wishSnapshot = await getDocs(wishesCollection);
       const wishesList = wishSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      // สุ่มลำดับของ wishes
+      wishesList.sort(() => Math.random() - 0.5);
       setWishes(wishesList);
     };
     fetchWishes();
   }, []);
 
   const getFlowerCount = () => {
-    if (window.innerWidth <= 768) return 22;
-    else if (window.innerWidth <= 1024) return 42;
+    if (window.innerWidth <= 768) return 20;
+    else if (window.innerWidth <= 1024) return 40;
     return 60;
   };
 
@@ -39,17 +41,19 @@ export default function FlowerGarden() {
 
   const generateFlowerPosition = () => {
     const maxPercentage = window.innerWidth < 640 ? 80 : 85; // ถ้าหน้าจอเล็ก (<640px) ใช้ 80% ถ้าหน้าจอใหญ่ ใช้ 85%
-  
+
     return {
       top: `${Math.random() * maxPercentage}%`,
       left: `${Math.random() * maxPercentage}%`,
     };
   };
-  
+
 
   useEffect(() => {
     const flowerCount = getFlowerCount();
-    let newFlowerData = wishes.slice(0, flowerCount).map(wish => ({
+    let shuffledWishes = [...wishes].sort(() => Math.random() - 0.5); // สุ่มอีกครั้งเพื่อให้เปลี่ยนทุกครั้งที่ render
+    let newFlowerData = shuffledWishes.slice(0, flowerCount).map(wish => ({
+
       ...wish,
       position: generateFlowerPosition(),
       image: `/flowers/flower-${Math.floor(Math.random() * 10) + 1}.svg`,
@@ -62,7 +66,7 @@ export default function FlowerGarden() {
     const flowerCount = getFlowerCount();
     let currentIndex = 0;
     const delayBetweenFlowers = 2000;
-
+  
     const interval = setInterval(() => {
       setFlowerData(prevFlowers =>
         prevFlowers.map((flower, index) =>
@@ -71,20 +75,30 @@ export default function FlowerGarden() {
             : flower
         )
       );
+  
       setTimeout(() => {
+        let shuffledWishes = [...wishes].sort(() => Math.random() - 0.5); // สุ่มใหม่ทุกครั้ง
         setFlowerData(prevFlowers =>
           prevFlowers.map((flower, index) =>
             index === currentIndex
-              ? { ...flower, position: generateFlowerPosition(), visible: true }
+              ? {
+                  ...shuffledWishes[index % shuffledWishes.length], // ใช้ wish ที่สุ่มใหม่
+                  position: generateFlowerPosition(),
+                  visible: true,
+                  image: `/flowers/flower-${Math.floor(Math.random() * 10) + 1}.svg`,
+                }
               : flower
           )
         );
       }, 500);
+  
       currentIndex = (currentIndex + 1) % flowerCount;
     }, delayBetweenFlowers);
-
+  
     return () => clearInterval(interval);
-  }, [flowerSize]);
+  }, [wishes, flowerSize]);
+  
+  
 
   return (
     <div className="h-screen bg-cover bg-center relative" style={{ backgroundImage: "url('/bg3.jpg')" }}>
