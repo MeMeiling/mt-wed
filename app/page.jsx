@@ -42,7 +42,7 @@ export default function Landing() {
         {/* ปุ่ม "อยากใส่ซอง" */}
         <button
           onClick={() => setIsModalOpen(true)}
-          className="text-white text-lg hover:shadow-xl"
+          className="text-white text-lg hover:underline"
         >
           <span className="text-shadow-lg font-sriracha flex items-center whitespace-nowrap">
             ส่งใจ ใส่ซอง
