@@ -139,7 +139,7 @@ export default function FlowerGarden() {
                 <img src={selectedWish.image} className="w-32 h-32 mx-auto my-2" />
               </div>
               <p className="font-sriracha text-2xl text-seccolor text-center">" {selectedWish.message} "</p>
-              <button onClick={() => setSelectedWish(null)} className="w-full mt-6 bg-maincolor text-white py-2 rounded-lg">Close</button>
+              <button onClick={() => setSelectedWish(null)} className="w-full mt-6 bg-maincolor text-xl text-white py-2 rounded-lg">Close</button>
             </div>
           </div>
         )}

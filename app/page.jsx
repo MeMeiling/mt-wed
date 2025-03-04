@@ -4,16 +4,15 @@ import { useState } from "react";
 import Button from "../components/Button";
 import QRModal from "../components/QRModal";
 
-
 export default function Landing() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div
-      className="h-screen bg-cover bg-center"
+      className="h-screen bg-cover bg-center flex flex-col"
       style={{ backgroundImage: "url('/bg1.jpg')" }} // ใช้ bg1.jpg เป็นพื้นหลัง
     >
-      <div className="flex flex-col justify-start md:pt-[5%] pt-[10%] xl:pt-[4%] px-4">
+      <div className="flex flex-col justify-start md:pt-[5%] pt-[10%] xl:pt-[4%] px-4 flex-grow">
         <h1 className="text-6xl md:text-7xl font-bold text-maincolor mb-4 text-center drop-shadow-lg">
           Meiling & Tul
         </h1>
@@ -38,7 +37,8 @@ export default function Landing() {
         </div>
       </div>
 
-      <div className="fixed bottom-5 md:px-14 px-0 md:mb-4 mb-2 left-0 right-0 mx-6 flex justify-between items-center">
+      {/* Footer อยู่ที่ด้านล่างสุด */}
+      <div className="px-6 py-4 text-white flex justify-between items-center mt-auto">
         {/* ปุ่ม "อยากใส่ซอง" */}
         <button
           onClick={() => setIsModalOpen(true)}
@@ -57,13 +57,12 @@ export default function Landing() {
           rel="noopener noreferrer"
           className="text-white text-2xl font-bold hover:underline"
         >
-          Lurk in #meitulwedding
+          Lurk in #MeiTul
         </a>
       </div>
 
       {/* Popup QR Modal */}
       <QRModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-
     </div>
   );
 }

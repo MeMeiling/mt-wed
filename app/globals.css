@@ -81,7 +81,7 @@ body4 {
 }
 
 .box-background-qr {
-  background-color: rgba(255, 255, 255, 0.8); /* สีขาวความทึบ 50% */
+  background-color: rgba(255, 255, 255, 0.7); /* สีขาวความทึบ 50% */
   border-radius: 16px; /* มุมโค้ง 16px */
   backdrop-filter: blur(2px); /* พื้นหลังเบลอ */
   -webkit-backdrop-filter: blur(2px); /* รองรับ Safari */

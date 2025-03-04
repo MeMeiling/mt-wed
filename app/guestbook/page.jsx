@@ -180,7 +180,7 @@ export default function Guestbook() {
           rel="noopener noreferrer"
           className="text-white text-2xl font-bold hover:underline"
         >
-          Lurk in #meitulwedding
+         Lurk in #MeiTul
         </a>
       </div>
 
