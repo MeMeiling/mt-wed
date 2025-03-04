@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
-import Button from "/components/Button";
 import Link from "next/link";
 
 export default function FlowerGarden() {
@@ -11,7 +10,7 @@ export default function FlowerGarden() {
   const [flowerData, setFlowerData] = useState([]);
   const [flowerSize, setFlowerSize] = useState(100);
   const [selectedWish, setSelectedWish] = useState(null);
-  const usedWishIds = useRef(new Set()); // เก็บ ID ของ wish ที่ใช้ไปแล้ว
+  const usedWishIds = useRef(new Set());
 
   useEffect(() => {
     const fetchWishes = async () => {
@@ -52,16 +51,18 @@ export default function FlowerGarden() {
 
     const flowerCount = getFlowerCount();
     let availableWishes = wishes.filter(wish => !usedWishIds.current.has(wish.id));
+
     if (availableWishes.length < flowerCount) {
       usedWishIds.current.clear(); // รีเซ็ตเมื่อ wish ไม่พอ
-      availableWishes = wishes;
+      availableWishes = [...wishes];
     }
 
-    const newFlowerData = Array.from({ length: flowerCount }).map(() => {
-      const randomWish = availableWishes[Math.floor(Math.random() * availableWishes.length)];
-      usedWishIds.current.add(randomWish.id);
+    const shuffledWishes = availableWishes.sort(() => Math.random() - 0.5).slice(0, flowerCount);
+
+    const newFlowerData = shuffledWishes.map(wish => {
+      usedWishIds.current.add(wish.id);
       return {
-        ...randomWish,
+        ...wish,
         position: generateFlowerPosition(),
         image: `/flowers/flower-${Math.floor(Math.random() * 10) + 1}.svg`,
         visible: true,
@@ -69,47 +70,41 @@ export default function FlowerGarden() {
     });
 
     setFlowerData(newFlowerData);
-  }, [wishes]);
-
-  // ทำให้ดอกไม้หายไปแล้วสุ่ม wish ใหม่มาแทน
-  useEffect(() => {
-    if (flowerData.length === 0) return;
 
     const interval = setInterval(() => {
       setFlowerData(prevFlowers => {
-        const newFlowers = [...prevFlowers];
-
-        // เลือกดอกไม้ที่จะหายแบบสุ่ม
-        const randomIndex = Math.floor(Math.random() * newFlowers.length);
-        newFlowers[randomIndex] = { ...newFlowers[randomIndex], visible: false };
-
-        setTimeout(() => {
-          let availableWishes = wishes.filter(wish => !usedWishIds.current.has(wish.id));
-
-          // ถ้า wish หมดแล้วให้รีเซ็ต
-          if (availableWishes.length === 0) {
-            usedWishIds.current.clear();
-            availableWishes = wishes;
-          }
-
-          const newWish = availableWishes[Math.floor(Math.random() * availableWishes.length)];
-          usedWishIds.current.add(newWish.id);
-
-          newFlowers[randomIndex] = {
-            ...newWish,
-            position: generateFlowerPosition(),
-            image: `/flowers/flower-${Math.floor(Math.random() * 10) + 1}.svg`,
-            visible: true,
-          };
-
-          setFlowerData([...newFlowers]);
-        }, 500);
-        return newFlowers;
+        const disappearingIndex = Math.floor(Math.random() * prevFlowers.length);
+        return prevFlowers.map((flower, index) =>
+          index === disappearingIndex ? { ...flower, visible: false } : flower
+        );
       });
-    }, 3000); // ทุก 3 วินาทีเปลี่ยนดอกไม้ใหม่
+
+      setTimeout(() => {
+        let availableWishesForRespawn = wishes.filter(wish => !usedWishIds.current.has(wish.id));
+        if (availableWishesForRespawn.length === 0) {
+          usedWishIds.current.clear();
+          availableWishesForRespawn = [...wishes];
+        }
+
+        const shuffledRespawnWishes = availableWishesForRespawn.sort(() => Math.random() - 0.5);
+
+        setFlowerData(prevFlowers =>
+          prevFlowers.map(flower =>
+            !flower.visible
+              ? {
+                  ...shuffledRespawnWishes.pop(),
+                  position: generateFlowerPosition(),
+                  visible: true,
+                  image: `/flowers/flower-${Math.floor(Math.random() * 10) + 1}.svg`,
+                }
+              : flower
+          )
+        );
+      }, 1000);
+    }, 4000);
 
     return () => clearInterval(interval);
-  }, [flowerData, wishes]);
+  }, [wishes]);
 
   return (
     <div className="h-screen bg-cover bg-center relative" style={{ backgroundImage: "url('/bg3.jpg')" }}>
@@ -121,18 +116,14 @@ export default function FlowerGarden() {
         {flowerData.map(flower => (
           <div
             key={flower.id}
-            className={`absolute cursor-pointer transition-opacity duration-500 ease-in-out ${flower.visible ? 'opacity-100' : 'opacity-0'}`}
-            style={{
-              ...flower.position,
-              width: `${flowerSize}px`,
-              height: `${flowerSize}px`,
-            }}
+            className={`absolute cursor-pointer transition-opacity duration-10000 ease-in-out ${flower.visible ? 'opacity-100' : 'opacity-0'}`}
+            style={{ ...flower.position, width: `${flowerSize}px`, height: `${flowerSize}px` }}
             onClick={() => setSelectedWish(flower)}
           >
             <div className="relative w-full h-full">
               <img src={flower.image} alt="Flower" className="w-full h-full" />
               {flower.imageUrl && (
-                <img src={flower.imageUrl} className="absolute top-[calc(50%-4px)] left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:w-14 md:h-14 w-12 h-12 rounded-full border-2 border-white shadow-lg" alt="Wish Image" />
+                <img src={flower.imageUrl} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:w-14 md:h-14 w-12 h-12 rounded-full border-2 border-white" alt="Wish Image" />
               )}
             </div>
           </div>
@@ -143,16 +134,12 @@ export default function FlowerGarden() {
               <h2 className="text-3xl font-sriracha font-bold text-seccolor text-center mb-4">{selectedWish.name}</h2>
               <div className="relative">
                 {selectedWish.imageUrl && (
-                  <img
-                    src={selectedWish.imageUrl}
-                    className="absolute top-[calc(50%-4px)] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full border-2 border-white shadow-lg"
-                    alt="Wish Image"
-                  />
+                  <img src={selectedWish.imageUrl} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full border-2 border-white shadow-lg" alt="Wish Image" />
                 )}
                 <img src={selectedWish.image} className="w-32 h-32 mx-auto my-2" />
               </div>
               <p className="font-sriracha text-2xl text-seccolor text-center">" {selectedWish.message} "</p>
-              <Button variant="main" onClick={() => setSelectedWish(null)} className="w-full mt-6">Close</Button>
+              <button onClick={() => setSelectedWish(null)} className="w-full mt-6 bg-maincolor text-white py-2 rounded-lg">Close</button>
             </div>
           </div>
         )}
