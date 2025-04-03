@@ -19,8 +19,8 @@ export default function FlowerGarden() {
   });
 
   const getFlowerCount = () => {
-    if (typeof window === "undefined") return 50;
-    if (window.innerWidth <= 500) return 18;
+    if (typeof window === "undefined") return 56;
+    if (window.innerWidth <= 500) return 22;
     if (window.innerWidth <= 800) return 40;
     return 50; // แก้เป็น 50 ดอกแน่นอน
   };
@@ -104,6 +104,15 @@ export default function FlowerGarden() {
     return () => clearInterval(interval);
   }, [wishes, currentIndex]);
 
+  useEffect(() => {
+    const refreshInterval = setInterval(() => {
+      window.location.reload(); // รีเฟรชหน้าเว็บ
+    }, 8 * 60 * 1000); // 8 นาที
+  
+    return () => clearInterval(refreshInterval); // เคลียร์ interval เมื่อออกจากหน้า
+  }, []);
+  
+
   return (
     <div className="h-screen bg-cover bg-center relative p-6 overflow-hidden" style={{ backgroundImage: "url('/bg3.jpg')" }}>
       <div className="absolute bottom-4 left-4 z-50">
@@ -146,11 +155,11 @@ export default function FlowerGarden() {
               {selectedWish.imageUrl && (
                 <img
                   src={selectedWish.imageUrl}
-                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full border-2 border-white shadow-lg z-50"
+                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full border-2 border-white shadow-lg z-50"
                   alt="Wish Image"
                 />
               )}
-              <img src={selectedWish.image} className="z-1 w-32 h-32 mx-auto my-2 drop-shadow-xl" alt="Flower" />
+              <img src={selectedWish.image} className="z-1 w-40 h-40 mx-auto my-2 drop-shadow-xl" alt="Flower" />
             </div>
             <p className="font-sriracha text-2xl text-seccolor text-center">" {selectedWish.message} "</p>
             <button onClick={() => setSelectedWish(null)} className="w-full mt-6 bg-maincolor text-xl text-white py-2 rounded-lg">Close</button>
