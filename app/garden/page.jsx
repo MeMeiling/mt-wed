@@ -1,26 +1,22 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import Link from "next/link";
 
 export default function FlowerGarden() {
   const [wishes, setWishes] = useState([]);
-  const [flowerData, setFlowerData] = useState([]);
-  const [flowerSize, setFlowerSize] = useState(100);
+  const [visibleFlowers, setVisibleFlowers] = useState([]);
   const [selectedWish, setSelectedWish] = useState(null);
-  const usedWishIds = useRef(new Set());
+  const [flowerSize, setFlowerSize] = useState(120);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
-    const fetchWishes = async () => {
-      const wishesCollection = collection(db, "wishes");
-      const wishSnapshot = await getDocs(wishesCollection);
-      const wishesList = wishSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setWishes(wishesList);
-    };
-    fetchWishes();
-  }, []);
+  const [flowerImages] = useState(() => {
+    return Array.from({ length: 60 }, (_, index) =>
+      `/flowers/flower-${(index % 10) + 1}.svg`
+    );
+  });
 
   const getFlowerCount = () => {
     if (typeof window === "undefined") return 40;
@@ -28,6 +24,36 @@ export default function FlowerGarden() {
     if (window.innerWidth <= 1024) return 40;
     return 60;
   };
+
+  const generateFlowerPosition = () => {
+    const padding = 10;
+    const maxWidth = window.innerWidth - flowerSize - padding;
+    const maxHeight = (window.innerHeight * 0.9) - flowerSize - padding;
+
+    return {
+      top: `${Math.random() * maxHeight}px`,
+      left: `${Math.random() * maxWidth}px`,
+    };
+  };
+
+  useEffect(() => {
+    const fetchWishes = async () => {
+      const wishesCollection = collection(db, "wishes");
+      const wishSnapshot = await getDocs(wishesCollection);
+      const wishesList = wishSnapshot.docs.map((doc, index) => ({
+        id: doc.id,
+        ...doc.data(),
+        image: flowerImages[index % flowerImages.length],
+      }));
+
+      setWishes(wishesList);
+      setVisibleFlowers(
+        wishesList.slice(0, getFlowerCount()).map(wish => ({ ...wish, ...generateFlowerPosition(), fading: false }))
+      );
+    };
+
+    fetchWishes();
+  }, [flowerImages]);
 
   useEffect(() => {
     const updateFlowerSize = () => {
@@ -38,112 +64,82 @@ export default function FlowerGarden() {
     return () => window.removeEventListener("resize", updateFlowerSize);
   }, []);
 
-  const generateFlowerPosition = () => {
-    const maxPercentage = window.innerWidth < 640 ? 80 : 85;
-    return {
-      top: `${Math.random() * maxPercentage}%`,
-      left: `${Math.random() * maxPercentage}%`,
-    };
-  };
-
   useEffect(() => {
-    if (wishes.length === 0) return;
-
-    const flowerCount = getFlowerCount();
-    let availableWishes = wishes.filter(wish => !usedWishIds.current.has(wish.id));
-
-    if (availableWishes.length < flowerCount) {
-      usedWishIds.current.clear(); // รีเซ็ตเมื่อ wish ไม่พอ
-      availableWishes = [...wishes];
-    }
-
-    const shuffledWishes = availableWishes.sort(() => Math.random() - 0.5).slice(0, flowerCount);
-
-    const newFlowerData = shuffledWishes.map(wish => {
-      usedWishIds.current.add(wish.id);
-      return {
-        ...wish,
-        position: generateFlowerPosition(),
-        image: `/flowers/flower-${Math.floor(Math.random() * 10) + 1}.svg`,
-        visible: true,
-      };
-    });
-
-    setFlowerData(newFlowerData);
-
     const interval = setInterval(() => {
-      setFlowerData(prevFlowers => {
-        const disappearingIndex = Math.floor(Math.random() * prevFlowers.length);
-        return prevFlowers.map((flower, index) =>
-          index === disappearingIndex ? { ...flower, visible: false } : flower
+      setVisibleFlowers(prevFlowers => {
+        if (wishes.length === 0) return prevFlowers;
+
+        const nextIndex = (currentIndex + 1) % wishes.length;
+        setCurrentIndex(nextIndex);
+
+        return prevFlowers.map((flower, i) =>
+          i === 0 ? { ...flower, fading: true } : flower
         );
       });
 
       setTimeout(() => {
-        let availableWishesForRespawn = wishes.filter(wish => !usedWishIds.current.has(wish.id));
-        if (availableWishesForRespawn.length === 0) {
-          usedWishIds.current.clear();
-          availableWishesForRespawn = [...wishes];
-        }
-
-        const shuffledRespawnWishes = availableWishesForRespawn.sort(() => Math.random() - 0.5);
-
-        setFlowerData(prevFlowers =>
-          prevFlowers.map(flower =>
-            !flower.visible
-              ? {
-                  ...shuffledRespawnWishes.pop(),
-                  position: generateFlowerPosition(),
-                  visible: true,
-                  image: `/flowers/flower-${Math.floor(Math.random() * 10) + 1}.svg`,
-                }
-              : flower
-          )
-        );
+        setVisibleFlowers(prevFlowers => [
+          ...prevFlowers.slice(1),
+          { ...wishes[currentIndex], ...generateFlowerPosition(), fading: false },
+        ]);
       }, 1000);
-    }, 4000);
+    }, 3000);
 
     return () => clearInterval(interval);
-  }, [wishes]);
+  }, [wishes, currentIndex]);
 
   return (
-    <div className="h-screen bg-cover bg-center relative" style={{ backgroundImage: "url('/bg3.jpg')" }}>
+    <div className="h-screen bg-cover bg-center relative p-6 overflow-hidden" style={{ backgroundImage: "url('/bg3.jpg')" }}>
       <div className="absolute bottom-4 left-4 z-50">
         <Link href="/" className="text-white text-3xl font-bold hover:underline">← Back to home</Link>
       </div>
-      <div className="min-h-screen p-4 relative z-60">
-        <h1 className="text-4xl md:text-4xl font-bold text-center text-maincolor mb-8">Flower Garden</h1>
-        {flowerData.map(flower => (
+      <h1 className="text-4xl font-bold text-center text-maincolor mb-8">Flower Garden</h1>
+      <div className="relative w-full h-screen">
+        {visibleFlowers.map((wish) => (
           <div
-            key={flower.id}
-            className={`absolute cursor-pointer transition-opacity duration-10000 ease-in-out ${flower.visible ? 'opacity-100' : 'opacity-0'}`}
-            style={{ ...flower.position, width: `${flowerSize}px`, height: `${flowerSize}px` }}
-            onClick={() => setSelectedWish(flower)}
+            key={wish.id}
+            className={`absolute transition-opacity duration-1000 ease-in-out transform scale-95 opacity-0 
+              ${wish.fading ? 'opacity-0' : 'opacity-100 scale-100'}`}
+            style={{
+              width: flowerSize,
+              height: flowerSize,
+              left: wish.left,
+              top: wish.top,
+            }}
+            onClick={() => setSelectedWish(wish)}
           >
-            <div className="relative w-full h-full">
-              <img src={flower.image} alt="Flower" className="w-full h-full" />
-              {flower.imageUrl && (
-                <img src={flower.imageUrl} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:w-14 md:h-14 w-12 h-12 rounded-full border-2 border-white" alt="Wish Image" />
-              )}
-            </div>
+            <img
+              src={wish.image}
+              alt="Flower"
+              className="w-full h-full"
+              style={{ filter: "drop-shadow(6px 6px 6px rgba(0, 0, 0, 0.5))" }}
+            />
+
+            {wish.imageUrl && (
+              <img src={wish.imageUrl} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full border-2 border-white shadow-lg" alt="Wish Image" />
+            )}
           </div>
         ))}
-        {selectedWish && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full relative box-background">
-              <h2 className="text-3xl font-sriracha font-bold text-seccolor text-center mb-4">{selectedWish.name}</h2>
-              <div className="relative">
-                {selectedWish.imageUrl && (
-                  <img src={selectedWish.imageUrl} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full border-2 border-white shadow-lg" alt="Wish Image" />
-                )}
-                <img src={selectedWish.image} className="w-32 h-32 mx-auto my-2" />
-              </div>
-              <p className="font-sriracha text-2xl text-seccolor text-center">" {selectedWish.message} "</p>
-              <button onClick={() => setSelectedWish(null)} className="w-full mt-6 bg-maincolor text-xl text-white py-2 rounded-lg">Close</button>
-            </div>
-          </div>
-        )}
       </div>
+      {selectedWish && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full relative box-background">
+            <h2 className="text-3xl font-bold text-seccolor text-center mb-4">{selectedWish.name}</h2>
+            <div className="relative">
+              {selectedWish.imageUrl && (
+                <img 
+                src={selectedWish.imageUrl} 
+                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full border-2 border-white shadow-lg z-50"
+                alt="Wish Image" 
+              />
+              )}
+              <img src={selectedWish.image} className="z-1 w-32 h-32 mx-auto my-2 drop-shadow-xl" alt="Flower" />
+            </div>
+            <p className="text-2xl text-seccolor text-center">" {selectedWish.message} "</p>
+            <button onClick={() => setSelectedWish(null)} className="w-full mt-6 bg-maincolor text-xl text-white py-2 rounded-lg">Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
