@@ -19,22 +19,37 @@ export default function FlowerGarden() {
   });
 
   const getFlowerCount = () => {
-    if (typeof window === "undefined") return 40;
-    if (window.innerWidth <= 768) return 20;
+    if (typeof window === "undefined") return 50;
+    if (window.innerWidth <= 768) return 30;
     if (window.innerWidth <= 1024) return 40;
     return 60;
   };
 
   const generateFlowerPosition = () => {
     const padding = 10;
-    const maxWidth = window.innerWidth - flowerSize - padding;
-    const maxHeight = (window.innerHeight * 0.9) - flowerSize - padding;
-
+    const flowerSize = 100; // ปรับขนาดตามจริง
+  
+    const minHeight = -window.innerHeight * 0.08; // -8% ของหน้าจอ
+    const maxHeight = (window.innerHeight * 0.9) - flowerSize - padding; // สูงสุด 90%
+  
+    const minWidth = -window.innerWidth * 0.1; // -10% ของความกว้างหน้าจอ
+  const maxWidth = window.innerWidth - flowerSize - padding; // สูงสุด 100%
+  
     return {
-      top: `${Math.random() * maxHeight}px`,
-      left: `${Math.random() * maxWidth}px`,
+      top: `${minHeight + Math.random() * (maxHeight - minHeight)}px`,
+      left: `${minWidth + Math.random() * (maxWidth - minWidth)}px`,
     };
   };
+  
+
+  useEffect(() => {
+    const refreshInterval = setInterval(() => {
+      window.location.reload(); // รีเฟรชหน้าเว็บ
+    }, 5 * 60 * 1000); // 5 นาที
+  
+    return () => clearInterval(refreshInterval); // เคลียร์ interval เมื่อออกจากหน้า
+  }, []);
+  
 
   useEffect(() => {
     const fetchWishes = async () => {
@@ -112,7 +127,7 @@ export default function FlowerGarden() {
               src={wish.image}
               alt="Flower"
               className="w-full h-full"
-              style={{ filter: "drop-shadow(6px 6px 6px rgba(0, 0, 0, 0.5))" }}
+              style={{ filter: "drop-shadow(6px 6px 6px rgba(0, 0, 0, 0.6))" }}
             />
 
             {wish.imageUrl && (
@@ -124,7 +139,7 @@ export default function FlowerGarden() {
       {selectedWish && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full relative box-background">
-            <h2 className="text-3xl font-bold text-seccolor text-center mb-4">{selectedWish.name}</h2>
+            <h2 className="text-3xl font-sriracha font-bold text-seccolor text-center mb-4">{selectedWish.name}</h2>
             <div className="relative">
               {selectedWish.imageUrl && (
                 <img 
@@ -135,7 +150,7 @@ export default function FlowerGarden() {
               )}
               <img src={selectedWish.image} className="z-1 w-32 h-32 mx-auto my-2 drop-shadow-xl" alt="Flower" />
             </div>
-            <p className="text-2xl text-seccolor text-center">" {selectedWish.message} "</p>
+            <p className="font-sriracha text-2xl text-seccolor text-center">" {selectedWish.message} "</p>
             <button onClick={() => setSelectedWish(null)} className="w-full mt-6 bg-maincolor text-xl text-white py-2 rounded-lg">Close</button>
           </div>
         </div>
