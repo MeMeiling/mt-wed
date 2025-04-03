@@ -20,8 +20,8 @@ export default function FlowerGarden() {
 
   const getFlowerCount = () => {
     if (typeof window === "undefined") return 50;
-    if (window.innerWidth <= 768) return 30;
-    if (window.innerWidth <= 1024) return 40;
+    if (window.innerWidth <= 500) return 18;
+    if (window.innerWidth <= 800) return 40;
     return 50; // แก้เป็น 50 ดอกแน่นอน
   };
 
