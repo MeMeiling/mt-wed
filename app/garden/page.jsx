@@ -10,7 +10,7 @@ export default function FlowerGarden() {
   const [visibleFlowers, setVisibleFlowers] = useState([]);
   const [selectedWish, setSelectedWish] = useState(null);
   const [flowerSize, setFlowerSize] = useState(120);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0); // ใช้เป็น index ของข้อมูลที่จะแสดงใหม่
 
   const [flowerImages] = useState(() => {
     return Array.from({ length: 60 }, (_, index) =>
@@ -22,22 +22,19 @@ export default function FlowerGarden() {
     if (typeof window === "undefined") return 50;
     if (window.innerWidth <= 768) return 30;
     if (window.innerWidth <= 1024) return 40;
-    return 60;
+    return 50; // แก้เป็น 50 ดอกแน่นอน
   };
 
   const generateFlowerPosition = () => {
     const padding = 10;
-    const minHeight = -window.innerHeight * 0.1; // -10% ของหน้าจอ
-    const maxHeight = (window.innerHeight * 0.9) - flowerSize - padding; // สูงสุด 90%
+    const minHeight = -window.innerHeight * 0.1;
+    const maxHeight = window.innerHeight * 0.9 - flowerSize - padding;
 
     let minWidth, maxWidth;
-
     if (window.innerWidth <= 768) {
-      // ถ้าหน้าจอเล็กกว่า 768px → ใช้ระยะ -10% ถึง 100%
       minWidth = -window.innerWidth * 0.1;
       maxWidth = window.innerWidth - flowerSize - padding;
     } else {
-      // ถ้าหน้าจอใหญ่กว่า 768px → ใช้ระยะปกติ (-3% - 100%)
       minWidth = -window.innerWidth * 0.03;
       maxWidth = window.innerWidth - flowerSize - padding;
     }
@@ -48,17 +45,7 @@ export default function FlowerGarden() {
     };
   };
 
-
-
-  useEffect(() => {
-    const refreshInterval = setInterval(() => {
-      window.location.reload(); // รีเฟรชหน้าเว็บ
-    }, 5 * 60 * 1000); // 5 นาที
-
-    return () => clearInterval(refreshInterval); // เคลียร์ interval เมื่อออกจากหน้า
-  }, []);
-
-
+  // ดึงข้อมูลจาก Firebase
   useEffect(() => {
     const fetchWishes = async () => {
       const wishesCollection = collection(db, "wishes");
@@ -71,13 +58,19 @@ export default function FlowerGarden() {
 
       setWishes(wishesList);
       setVisibleFlowers(
-        wishesList.slice(0, getFlowerCount()).map(wish => ({ ...wish, ...generateFlowerPosition(), fading: false }))
+        wishesList.slice(0, getFlowerCount()).map((wish) => ({
+          ...wish,
+          ...generateFlowerPosition(),
+          fading: false,
+        }))
       );
+      setCurrentIndex(getFlowerCount()); // เริ่มที่ index 50
     };
 
     fetchWishes();
   }, [flowerImages]);
 
+  // เปลี่ยนขนาดดอกไม้ตามหน้าจอ
   useEffect(() => {
     const updateFlowerSize = () => {
       setFlowerSize(window.innerWidth <= 768 ? 100 : 120);
@@ -87,26 +80,26 @@ export default function FlowerGarden() {
     return () => window.removeEventListener("resize", updateFlowerSize);
   }, []);
 
+  // วนแสดงข้อมูลตามลำดับ
   useEffect(() => {
     const interval = setInterval(() => {
-      setVisibleFlowers(prevFlowers => {
+      setVisibleFlowers((prevFlowers) => {
         if (wishes.length === 0) return prevFlowers;
 
-        const nextIndex = (currentIndex + 1) % wishes.length;
-        setCurrentIndex(nextIndex);
+        // ถ้า currentIndex เกินขนาดข้อมูล → กลับไปที่ index 0
+        const nextIndex = currentIndex >= wishes.length ? 0 : currentIndex;
+        setCurrentIndex(nextIndex + 1);
 
-        return prevFlowers.map((flower, i) =>
-          i === 0 ? { ...flower, fading: true } : flower
-        );
+        return [
+          ...prevFlowers.slice(1), // ลบดอกไม้ตัวแรกออก
+          {
+            ...wishes[nextIndex], // ดึงดอกไม้ลำดับถัดไปมาแสดง
+            ...generateFlowerPosition(),
+            fading: false,
+          },
+        ];
       });
-
-      setTimeout(() => {
-        setVisibleFlowers(prevFlowers => [
-          ...prevFlowers.slice(1),
-          { ...wishes[currentIndex], ...generateFlowerPosition(), fading: false },
-        ]);
-      }, 2000);
-    }, 3000);
+    }, 3000); // เปลี่ยนทุก 3 วินาที
 
     return () => clearInterval(interval);
   }, [wishes, currentIndex]);
