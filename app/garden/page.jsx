@@ -27,29 +27,37 @@ export default function FlowerGarden() {
 
   const generateFlowerPosition = () => {
     const padding = 10;
-    const flowerSize = 100; // ปรับขนาดตามจริง
-  
-    const minHeight = -window.innerHeight * 0.08; // -8% ของหน้าจอ
+    const minHeight = -window.innerHeight * 0.1; // -10% ของหน้าจอ
     const maxHeight = (window.innerHeight * 0.9) - flowerSize - padding; // สูงสุด 90%
-  
-    const minWidth = -window.innerWidth * 0.1; // -10% ของความกว้างหน้าจอ
-  const maxWidth = window.innerWidth - flowerSize - padding; // สูงสุด 100%
-  
+
+    let minWidth, maxWidth;
+
+    if (window.innerWidth <= 768) {
+      // ถ้าหน้าจอเล็กกว่า 768px → ใช้ระยะ -10% ถึง 100%
+      minWidth = -window.innerWidth * 0.1;
+      maxWidth = window.innerWidth - flowerSize - padding;
+    } else {
+      // ถ้าหน้าจอใหญ่กว่า 768px → ใช้ระยะปกติ (-3% - 100%)
+      minWidth = -window.innerWidth * 0.03;
+      maxWidth = window.innerWidth - flowerSize - padding;
+    }
+
     return {
       top: `${minHeight + Math.random() * (maxHeight - minHeight)}px`,
       left: `${minWidth + Math.random() * (maxWidth - minWidth)}px`,
     };
   };
-  
+
+
 
   useEffect(() => {
     const refreshInterval = setInterval(() => {
       window.location.reload(); // รีเฟรชหน้าเว็บ
     }, 5 * 60 * 1000); // 5 นาที
-  
+
     return () => clearInterval(refreshInterval); // เคลียร์ interval เมื่อออกจากหน้า
   }, []);
-  
+
 
   useEffect(() => {
     const fetchWishes = async () => {
@@ -97,7 +105,7 @@ export default function FlowerGarden() {
           ...prevFlowers.slice(1),
           { ...wishes[currentIndex], ...generateFlowerPosition(), fading: false },
         ]);
-      }, 1000);
+      }, 2000);
     }, 3000);
 
     return () => clearInterval(interval);
@@ -113,8 +121,9 @@ export default function FlowerGarden() {
         {visibleFlowers.map((wish) => (
           <div
             key={wish.id}
-            className={`absolute transition-opacity duration-1000 ease-in-out transform scale-95 opacity-0 
-              ${wish.fading ? 'opacity-0' : 'opacity-100 scale-100'}`}
+            className={`absolute transition-opacity duration-2000 ease-in-out transform scale-95 opacity-0
+              ${wish.fading ? 'opacity-0' : 'opacity-100 scale-100'} 
+              transition-transform duration-300 hover:scale-105 hover:drop-shadow-[8px_8px_10px_rgba(0,0,0,0.2)]`}
             style={{
               width: flowerSize,
               height: flowerSize,
@@ -142,11 +151,11 @@ export default function FlowerGarden() {
             <h2 className="text-3xl font-sriracha font-bold text-seccolor text-center mb-4">{selectedWish.name}</h2>
             <div className="relative">
               {selectedWish.imageUrl && (
-                <img 
-                src={selectedWish.imageUrl} 
-                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full border-2 border-white shadow-lg z-50"
-                alt="Wish Image" 
-              />
+                <img
+                  src={selectedWish.imageUrl}
+                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full border-2 border-white shadow-lg z-50"
+                  alt="Wish Image"
+                />
               )}
               <img src={selectedWish.image} className="z-1 w-32 h-32 mx-auto my-2 drop-shadow-xl" alt="Flower" />
             </div>
