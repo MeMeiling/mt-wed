@@ -108,16 +108,25 @@ export default function FlowerGarden() {
     const refreshInterval = setInterval(() => {
       window.location.reload(); // รีเฟรชหน้าเว็บ
     }, 8 * 60 * 1000); // 8 นาที
-  
+
     return () => clearInterval(refreshInterval); // เคลียร์ interval เมื่อออกจากหน้า
   }, []);
-  
+
 
   return (
     <div className="h-screen bg-cover bg-center relative p-6 overflow-hidden" style={{ backgroundImage: "url('/bg3.jpg')" }}>
       <div className="absolute bottom-4 left-4 z-50">
         <Link href="/" className="text-white text-3xl font-bold hover:underline">← Back to home</Link>
       </div>
+      {/* <div className="h-screen bg-cover bg-center relative p-6 overflow-hidden" style={{ backgroundImage: "url('/bg3.jpg')" }}>
+      <div className="absolute bottom-4 left-4 z-50 flex justify-between w-full px-4">
+  <Link href="/" className="text-white text-3xl font-bold hover:underline">
+    ← Back to home
+  </Link>
+  <Link href="/chatroom" className="text-white text-3xl font-bold hover:underline">
+    💬 Join Chatroom
+  </Link>
+</div> */}
       <h1 className="text-4xl font-bold text-center text-maincolor mb-8">Flower Garden</h1>
       <div className="relative w-full h-screen">
         {visibleFlowers.map((wish) => (
@@ -161,7 +170,9 @@ export default function FlowerGarden() {
               )}
               <img src={selectedWish.image} className="z-1 w-40 h-40 mx-auto my-2 drop-shadow-xl" alt="Flower" />
             </div>
-            <p className="font-sriracha text-2xl text-seccolor text-center">" {selectedWish.message} "</p>
+            <p className="font-sriracha text-2xl text-seccolor text-center max-h-[260px] overflow-y-auto">
+              " {selectedWish.message} "
+            </p>
             <button onClick={() => setSelectedWish(null)} className="w-full mt-6 bg-maincolor text-xl text-white py-2 rounded-lg">Close</button>
           </div>
         </div>
