@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import scrollbarHide from "tailwind-scrollbar-hide";
 
 const config: Config = {
   content: [
@@ -16,8 +17,8 @@ const config: Config = {
         buttoncolorsub: "#D7B250", // ปุ่มรอง
       },
       fontFamily: {
-        caveat: ['var(--caveat-font)', "sans-serif"], // ฟอนต์ Caveat
-        sriracha: ['var(--sriracha-font)', "sans-serif"], // ฟอนต์ Sriracha
+        caveat: ['var(--caveat-font)', "sans-serif"],
+        sriracha: ['var(--sriracha-font)', "sans-serif"],
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -26,7 +27,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [scrollbarHide], // รวม plugin ไว้ในนี้เลย
 };
 
 export default config;

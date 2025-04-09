@@ -138,14 +138,14 @@ export default function Guestbook() {
           </form>
         ) : (
           <div className="p-6 text-center box-background relative">
-            <h2 className="text-3xl font-sriracha font-bold text-maincolor mb-4 max-h-[70px] overflow-y-auto overflow-x-hidden">Thank You, {submittedName}!</h2>
+            <h2 className="text-3xl font-sriracha font-bold text-maincolor mb-4 max-h-[70px] overflow-y-auto overflow-x-hidden scrollbar-hide">Thank You, {submittedName}!</h2>
             <div className="relative w-40 h-40 mx-auto my-2">
               <img src={`/flowers/flower-${Math.floor(Math.random() * 10) + 1}.svg`} className="w-full h-full" alt="Flower" />
               {previewImage && (
                 <img src={previewImage} className="absolute top-[calc(50%-6px)] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full border-2 border-white shadow-lg" alt="Uploaded" />
               )}
             </div>
-            <p className="text-lg font-sriracha text-seccolor mb-4 max-h-[260px] overflow-y-auto overflow-x-hidden">"{submittedMessage}"</p>
+            <p className="text-lg font-sriracha text-seccolor mb-4 max-h-[260px] overflow-y-auto overflow-x-hidden scrollbar-hide">"{submittedMessage}"</p>
             <p className="md:text-2xl text-2xl font-bold text-maincolor mb-6">Your wishes have been successfully submitted.</p>
             <Button variant="main" onClick={() => router.push("/garden")}>
               Go to Garden

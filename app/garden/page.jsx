@@ -19,8 +19,8 @@ export default function FlowerGarden() {
   });
 
   const getFlowerCount = () => {
-    if (typeof window === "undefined") return 56;
-    if (window.innerWidth <= 500) return 22;
+    if (typeof window === "undefined") return 60;
+    if (window.innerWidth <= 500) return 20;
     if (window.innerWidth <= 800) return 40;
     return 50; // แก้เป็น 50 ดอกแน่นอน
   };
@@ -107,7 +107,7 @@ export default function FlowerGarden() {
   useEffect(() => {
     const refreshInterval = setInterval(() => {
       window.location.reload(); // รีเฟรชหน้าเว็บ
-    }, 8 * 60 * 1000); // 8 นาที
+    }, 10 * 60 * 1000); // 8 นาที
 
     return () => clearInterval(refreshInterval); // เคลียร์ interval เมื่อออกจากหน้า
   }, []);
@@ -159,7 +159,7 @@ export default function FlowerGarden() {
       {selectedWish && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full relative box-background">
-            <h2 className="text-3xl font-sriracha font-bold text-seccolor text-center mb-4 max-h-[70px] overflow-y-auto overflow-x-hidden">{selectedWish.name}</h2>
+            <h2 className="text-3xl font-sriracha font-bold text-seccolor text-center mb-4 max-h-[70px] overflow-y-auto overflow-x-hidden scrollbar-hide">{selectedWish.name}</h2>
             <div className="relative">
               {selectedWish.imageUrl && (
                 <img
@@ -170,7 +170,7 @@ export default function FlowerGarden() {
               )}
               <img src={selectedWish.image} className="z-1 w-40 h-40 mx-auto my-2 drop-shadow-xl" alt="Flower" />
             </div>
-            <p className="font-sriracha text-2xl text-seccolor text-center max-h-[260px] overflow-y-auto overflow-x-hidden">
+            <p className="font-sriracha text-2xl text-seccolor text-center max-h-[260px] overflow-y-auto overflow-x-hidden scrollbar-hide">
               " {selectedWish.message} "
             </p>
             <button onClick={() => setSelectedWish(null)} className="w-full mt-6 bg-maincolor text-xl text-white py-2 rounded-lg">Close</button>
