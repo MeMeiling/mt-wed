@@ -20,7 +20,7 @@ export default function FlowerGarden() {
 
   const getFlowerCount = () => {
     if (typeof window === "undefined") return 60;
-    if (window.innerWidth <= 500) return 20;
+    if (window.innerWidth <= 500) return 16;
     if (window.innerWidth <= 800) return 40;
     return 50; // แก้เป็น 50 ดอกแน่นอน
   };
@@ -45,30 +45,52 @@ export default function FlowerGarden() {
     };
   };
 
-  // ดึงข้อมูลจาก Firebase
   useEffect(() => {
     const fetchWishes = async () => {
       const wishesCollection = collection(db, "wishes");
       const wishSnapshot = await getDocs(wishesCollection);
-      const wishesList = wishSnapshot.docs.map((doc, index) => ({
-        id: doc.id,
-        ...doc.data(),
-        image: flowerImages[index % flowerImages.length],
-      }));
 
-      setWishes(wishesList);
-      setVisibleFlowers(
-        wishesList.slice(0, getFlowerCount()).map((wish) => ({
-          ...wish,
-          ...generateFlowerPosition(),
-          fading: false,
+      // 🔀 ฟังก์ชันสุ่มลำดับข้อมูล
+      const shuffleArray = (array) => {
+        return array
+          .map((value) => ({ value, sort: Math.random() }))
+          .sort((a, b) => a.sort - b.sort)
+          .map(({ value }) => value);
+      };
+
+      // ดึงและสุ่มลำดับ
+      const wishesList = shuffleArray(
+        wishSnapshot.docs.map((doc, index) => ({
+          id: doc.id,
+          ...doc.data(),
+          image: flowerImages[index % flowerImages.length],
         }))
       );
-      setCurrentIndex(getFlowerCount()); // เริ่มที่ index 50
+
+      setWishes(wishesList);
+
+      const initialFlowers = wishesList.slice(0, getFlowerCount()).map((wish) => ({
+        ...wish,
+        ...generateFlowerPosition(),
+        fading: true, // เริ่มต้นซ่อนไว้ก่อน
+      }));
+
+      setVisibleFlowers(initialFlowers);
+
+      // ให้เปลี่ยน fading เป็น false ทีละตัว เพื่อให้ transition ทำงาน
+      setTimeout(() => {
+        setVisibleFlowers((prev) =>
+          prev.map((wish) => ({ ...wish, fading: false }))
+        );
+      }, 50); // delay สั้นพอให้ browser จับการเปลี่ยนแปลง
+
+
+      setCurrentIndex(getFlowerCount()); // เริ่มที่ index หลังจากชุดแรก
     };
 
     fetchWishes();
   }, [flowerImages]);
+
 
   // เปลี่ยนขนาดดอกไม้ตามหน้าจอ
   useEffect(() => {
@@ -86,20 +108,28 @@ export default function FlowerGarden() {
       setVisibleFlowers((prevFlowers) => {
         if (wishes.length === 0) return prevFlowers;
 
-        // ถ้า currentIndex เกินขนาดข้อมูล → กลับไปที่ index 0
         const nextIndex = currentIndex >= wishes.length ? 0 : currentIndex;
         setCurrentIndex(nextIndex + 1);
 
-        return [
-          ...prevFlowers.slice(1), // ลบดอกไม้ตัวแรกออก
-          {
-            ...wishes[nextIndex], // ดึงดอกไม้ลำดับถัดไปมาแสดง
-            ...generateFlowerPosition(),
-            fading: false,
-          },
-        ];
+        const newFlower = {
+          ...wishes[nextIndex],
+          ...generateFlowerPosition(),
+          fading: true,
+        };
+
+        const updated = [...prevFlowers.slice(1), newFlower];
+
+        // หน่วงเวลาค่อยเปลี่ยน fading เป็น false เพื่อให้เกิด animation
+        setTimeout(() => {
+          setVisibleFlowers((current) =>
+            current.map((f, i) =>
+              i === updated.length - 1 ? { ...f, fading: false } : f
+            )
+          );
+        }, 50);
+        return updated;
       });
-    }, 3000); // เปลี่ยนทุก 3 วินาที
+    }, 4000); // เปลี่ยนทุก 6 วินาที
 
     return () => clearInterval(interval);
   }, [wishes, currentIndex]);
@@ -132,7 +162,7 @@ export default function FlowerGarden() {
         {visibleFlowers.map((wish) => (
           <div
             key={wish.id}
-            className={`absolute transition-opacity duration-2000 ease-in-out transform scale-95 opacity-0
+            className={`absolute transition-all transition-opacity duration-800 ease-in-out transform scale-95 opacity-0
               ${wish.fading ? 'opacity-0' : 'opacity-100 scale-100'} 
               transition-transform duration-300 hover:scale-105 hover:drop-shadow-[8px_8px_10px_rgba(0,0,0,0.2)]`}
             style={{
