@@ -13,6 +13,7 @@ const config: Config = {
         maincolor: "#634E15", // สีหลัก
         seccolor: "#54524E", // สีรอง
         terticolor: "#826633", // สีน้ำตาลเข้ม2
+        subcolor: "#6D685F", // สีเทา
         buttoncolormain: "#F8E0A0", // ปุ่มเมน
         buttoncolorsub: "#D7B250", // ปุ่มรอง
       },

@@ -22,8 +22,10 @@ export default function FlowerGarden() {
     if (typeof window === "undefined") return 60;
     if (window.innerWidth <= 500) return 16;
     if (window.innerWidth <= 800) return 40;
-    return 50; // แก้เป็น 50 ดอกแน่นอน
+    if (window.innerWidth <= 1600) return 52;
+    return 70;
   };
+  
 
   const generateFlowerPosition = () => {
     const padding = 10;
@@ -95,7 +97,7 @@ export default function FlowerGarden() {
   // เปลี่ยนขนาดดอกไม้ตามหน้าจอ
   useEffect(() => {
     const updateFlowerSize = () => {
-      setFlowerSize(window.innerWidth <= 768 ? 100 : 120);
+      setFlowerSize(window.innerWidth <= 800 ? 100 : 120);
     };
     updateFlowerSize();
     window.addEventListener("resize", updateFlowerSize);
@@ -137,7 +139,7 @@ export default function FlowerGarden() {
   useEffect(() => {
     const refreshInterval = setInterval(() => {
       window.location.reload(); // รีเฟรชหน้าเว็บ
-    }, 10 * 60 * 1000); // 8 นาที
+    }, 15 * 60 * 1000); // 15 นาที
 
     return () => clearInterval(refreshInterval); // เคลียร์ interval เมื่อออกจากหน้า
   }, []);
@@ -157,7 +159,7 @@ export default function FlowerGarden() {
     💬 Join Chatroom
   </Link>
 </div> */}
-      <h1 className="text-4xl font-bold text-center text-maincolor mb-8">Flower Garden</h1>
+      <h1 className="text-5xl font-bold text-center text-maincolor mb-8">Flower Garden</h1>
       <div className="relative w-full h-screen">
         {visibleFlowers.map((wish) => (
           <div
