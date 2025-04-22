@@ -23,7 +23,7 @@ export default function FlowerGarden() {
     if (window.innerWidth <= 500) return 16;
     if (window.innerWidth <= 800) return 40;
     if (window.innerWidth <= 1600) return 52;
-    return 70;
+    return 80;
   };
   
 
