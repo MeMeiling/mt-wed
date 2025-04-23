@@ -16,6 +16,7 @@ const config: Config = {
         subcolor: "#6D685F", // สีเทา
         buttoncolormain: "#F8E0A0", // ปุ่มเมน
         buttoncolorsub: "#D7B250", // ปุ่มรอง
+        buttoncolorsub2: "#9EB064", // ปุ่มรอง2
       },
       fontFamily: {
         caveat: ['var(--caveat-font)', "sans-serif"],

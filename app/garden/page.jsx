@@ -20,9 +20,9 @@ export default function FlowerGarden() {
 
   const getFlowerCount = () => {
     if (typeof window === "undefined") return 60;
-    if (window.innerWidth <= 500) return 16;
+    if (window.innerWidth <= 500) return 20;
     if (window.innerWidth <= 800) return 40;
-    if (window.innerWidth <= 1600) return 52;
+    if (window.innerWidth <= 1600) return 56;
     return 80;
   };
   
