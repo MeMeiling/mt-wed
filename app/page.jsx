@@ -51,11 +51,11 @@ export default function Landing() {
       </div>
 
       {/* Footer อยู่ที่ด้านล่างสุด */}
-      <div className="px-6 py-4 text-white flex justify-between items-center mt-auto">
+      <div className="px-4 md:px-14 py-4 text-white flex justify-between items-center mt-auto">
         {/* ปุ่ม "อยากใส่ซอง" */}
         <a
           href="/schedule"
-          className="text-white text-2xl font-bold hover:underline"
+          className="text-white text-3xl font-bold text-shadow-lg hover:underline"
         >
           Schedule
         </a>
@@ -65,7 +65,7 @@ export default function Landing() {
           href="https://www.instagram.com/explore/tags/meitulwedding/"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-white text-2xl font-bold hover:underline"
+          className="text-white text-3xl font-bold text-shadow-lg hover:underline"
         >
           Lurk in #MeiTul
         </a>

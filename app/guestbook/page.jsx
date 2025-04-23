@@ -96,10 +96,10 @@ export default function Guestbook() {
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center px-4 relative"
+      className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center relative"
       style={{ backgroundImage: "url('/bg2.jpg')" }}
     >
-      <div className="flex-1 flex flex-col my-10 items-center justify-center w-full">
+      <div className="flex-1 flex flex-col my-10 px-6 items-center justify-center w-full">
 
         <h1 className="text-4xl md:text-4xl font-bold text-maincolor mb-6">Leave Your Wishes</h1>
 
@@ -128,7 +128,10 @@ export default function Guestbook() {
             </div>
 
             <div className="mb-4">
-              <label className="block text-seccolor text-xl mb-2">Your Image (Please zoom in to your face!)</label>
+              <div className="block text-seccolor text-xl mb-2">
+                <label className="mr-2">Your Image</label>
+                <label className="font-bold">(Please zoom in to your face!)</label>
+              </div>
               <input
                 type="file"
                 accept="image/*"
@@ -181,19 +184,19 @@ export default function Guestbook() {
 
         {/* Mobile Back to Home Link */}
         <div className="block mt-6">
-          <Link href="/" className="text-white text-3xl font-bold hover:underline">
+          <Link href="/" className="text-white text-3xl font-bold text-shadow-lg hover:underline">
             ← Back to home
           </Link>
         </div>
       </div>
 
-      <div className="w-full mb-4 bottom-5 left-0 right-0 md:px-14 px-0 flex justify-between items-center">
+      <div className="w-full mb-4 bottom-5 left-0 right-0 md:px-14 px-4 flex justify-between items-center">
         {/* ปุ่ม "อยากใส่ซอง" */}
         <button
           onClick={() => setIsModalOpen(true)}
           className="text-white text-lg hover:underline"
         >
-          <span className="text-shadow-lg font-sriracha flex items-center whitespace-nowrap">
+          <span className="text-white text-xl font-bold text-shadow-lg font-sriracha flex items-center whitespace-nowrap">
             ส่งใจ ใส่ซอง
             <img src="/songicon.svg" alt="Song Icon" className="ml-2 w-8 h-8 mb-2" />
           </span>
@@ -204,7 +207,7 @@ export default function Guestbook() {
           href="https://www.instagram.com/explore/tags/meitulwedding/"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-white text-2xl font-bold hover:underline"
+          className="text-white text-3xl font-bold text-shadow-lg hover:underline"
         >
           Lurk in #MeiTul
         </a>

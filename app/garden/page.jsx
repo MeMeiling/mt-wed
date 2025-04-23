@@ -20,12 +20,12 @@ export default function FlowerGarden() {
 
   const getFlowerCount = () => {
     if (typeof window === "undefined") return 60;
-    if (window.innerWidth <= 500) return 20;
-    if (window.innerWidth <= 800) return 40;
+    if (window.innerWidth <= 500) return 24;
+    if (window.innerWidth <= 800) return 46;
     if (window.innerWidth <= 1600) return 56;
     return 80;
   };
-  
+
 
   const generateFlowerPosition = () => {
     const padding = 10;
@@ -146,11 +146,23 @@ export default function FlowerGarden() {
 
 
   return (
-    <div className="h-screen bg-cover bg-center relative p-6 overflow-hidden" style={{ backgroundImage: "url('/bg3.jpg')" }}>
-      <div className="absolute bottom-4 left-4 z-50">
-        <Link href="/" className="text-white text-3xl font-bold hover:underline">← Back to home</Link>
+    <div className="h-screen bg-cover bg-center relative overflow-hidden" style={{ backgroundImage: "url('/bg3.jpg')" }}>
+      <div className="absolute w-full bottom-4 px-4 md:px-6 flex justify-between items-center z-50">
+        {/* ปุ่ม "Back to home" */}
+        <Link href="/" className="text-white text-2xl font-bold text-shadow-lg hover:underline">
+          ← Back to home
+        </Link>
+        {/* Text Link ไป Instagram Hashtag */}
+        <a
+          href="https://www.instagram.com/explore/tags/meitulwedding/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-white text-2xl font-bold text-shadow-lg hover:underline"
+        >
+          Lurk in #MeiTul
+        </a>
       </div>
-      <h1 className="text-5xl font-bold text-center text-maincolor mb-8">Flower Garden</h1>
+      <h1 className="text-5xl font-bold text-center text-maincolor mt-6">Flower Garden</h1>
       <div className="relative w-full h-screen">
         {visibleFlowers.map((wish) => (
           <div
