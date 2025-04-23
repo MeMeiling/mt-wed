@@ -107,15 +107,35 @@ export default function Guestbook() {
           <form onSubmit={handleSubmit} className="w-full max-w-md p-6 box-background relative">
             <div className="mb-4">
               <label className="block text-seccolor text-xl mb-2">Your Name</label>
-              <input type="text" name="name" className="font-sriracha w-full input-field" required />
+              <input
+                type="text"
+                name="name"
+                className="font-sriracha w-full input-field"
+                required
+                onChange={(e) => setSubmittedName(e.target.value)} // เพิ่มการจัดการค่าของชื่อ
+              />
             </div>
+
             <div className="mb-4">
               <label className="block text-seccolor text-xl mb-2">Your Message</label>
-              <textarea name="message" className="font-sriracha w-full input-field" rows="4" required></textarea>
+              <textarea
+                name="message"
+                className="font-sriracha w-full input-field"
+                rows="4"
+                required
+                onChange={(e) => setSubmittedMessage(e.target.value)} // เพิ่มการจัดการค่าของข้อความ
+              ></textarea>
             </div>
+
             <div className="mb-4">
-              <label className="block text-seccolor text-xl mb-2">Your Image (Please zoom in to your face!) </label>
-              <input type="file" accept="image/*" className="w-full input-field" onChange={handleFileChange} />
+              <label className="block text-seccolor text-xl mb-2">Your Image (Please zoom in to your face!)</label>
+              <input
+                type="file"
+                accept="image/*"
+                className="w-full input-field"
+                onChange={handleFileChange}
+                required
+              />
             </div>
 
             {imageSrc && (
@@ -132,17 +152,23 @@ export default function Guestbook() {
               </div>
             )}
 
-            <Button type="submit" variant="main" className="w-full my-4" disabled={isUploading}>
+            <Button
+              type="submit"
+              variant="main"
+              className="w-full my-4"
+              disabled={!submittedName || !submittedMessage || !imageFile || isUploading} // ตรวจสอบข้อมูลครบหรือไม่
+            >
               {isUploading ? "Submitting..." : "Submit"}
             </Button>
           </form>
+
         ) : (
           <div className="p-6 text-center box-background relative">
             <h2 className="text-3xl font-sriracha font-bold text-maincolor mb-4 max-h-[70px] overflow-y-auto overflow-x-hidden scrollbar-hide">Thank You, {submittedName}!</h2>
             <div className="relative w-40 h-40 mx-auto my-2">
-              <img src={`/flowers/flower-${Math.floor(Math.random() * 10) + 1}.svg`} className="w-full h-full" alt="Flower" />
+              <img src={`/flowers/flower-${Math.floor(Math.random() * 10) + 1}.svg`} className="w-full h-full drop-shadow-xl" alt="Flower" />
               {previewImage && (
-                <img src={previewImage} className="absolute top-[calc(50%-6px)] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full border-2 border-white shadow-lg" alt="Uploaded" />
+                <img src={previewImage} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full border-2 border-white shadow-lg" alt="Uploaded" />
               )}
             </div>
             <p className="text-lg font-sriracha text-seccolor mb-4 max-h-[260px] overflow-y-auto overflow-x-hidden scrollbar-hide">"{submittedMessage}"</p>
@@ -180,7 +206,7 @@ export default function Guestbook() {
           rel="noopener noreferrer"
           className="text-white text-2xl font-bold hover:underline"
         >
-         Lurk in #MeiTul
+          Lurk in #MeiTul
         </a>
       </div>
 

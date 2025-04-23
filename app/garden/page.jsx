@@ -182,7 +182,7 @@ export default function FlowerGarden() {
       {selectedWish && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full relative box-background">
-            <h2 className="text-3xl font-sriracha font-bold text-seccolor text-center mb-4 max-h-[70px] overflow-y-auto overflow-x-hidden scrollbar-hide">{selectedWish.name}</h2>
+            <h2 className="text-3xl font-sriracha font-bold text-seccolor text-center max-h-[70px] overflow-y-auto overflow-x-hidden scrollbar-hide">{selectedWish.name}</h2>
             <div className="relative">
               {selectedWish.imageUrl && (
                 <img

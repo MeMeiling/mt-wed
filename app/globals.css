@@ -60,6 +60,9 @@ body4 {
   padding-bottom: 8px;
 }
 
+.font-sriracha {
+  line-height: 2; /* ปรับค่า line-height ให้เหมาะสม */
+}
 
 .full-background {
   height: 100vh; /* เต็มความสูงของ viewport */
