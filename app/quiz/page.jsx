@@ -5,7 +5,7 @@ export default function FormPage() {
   return (
     <div
       className="min-h-screen bg-cover bg-center px-4 py-10 flex flex-col items-center"
-      style={{ backgroundImage: "url('/bg4.jpg')" }}
+      style={{ backgroundImage: "url('/bg4.JPG')" }}
     >
       <div className="w-full max-w-xl md:p-6 box-background relative">
         <div className="w-full px-2 py-4">
