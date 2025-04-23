@@ -77,11 +77,11 @@ body4 {
   background-position: top;
 }
 
-@media (min-width: 768px) {
+
   .bg-desktop-position {
     background-position: bottom -10%;
   }
-}
+
 
 
 .box-background {

@@ -150,15 +150,6 @@ export default function FlowerGarden() {
       <div className="absolute bottom-4 left-4 z-50">
         <Link href="/" className="text-white text-3xl font-bold hover:underline">← Back to home</Link>
       </div>
-      {/* <div className="h-screen bg-cover bg-center relative p-6 overflow-hidden" style={{ backgroundImage: "url('/bg3.jpg')" }}>
-      <div className="absolute bottom-4 left-4 z-50 flex justify-between w-full px-4">
-  <Link href="/" className="text-white text-3xl font-bold hover:underline">
-    ← Back to home
-  </Link>
-  <Link href="/chatroom" className="text-white text-3xl font-bold hover:underline">
-    💬 Join Chatroom
-  </Link>
-</div> */}
       <h1 className="text-5xl font-bold text-center text-maincolor mb-8">Flower Garden</h1>
       <div className="relative w-full h-screen">
         {visibleFlowers.map((wish) => (
