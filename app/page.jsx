@@ -9,9 +9,10 @@ export default function Landing() {
 
   return (
     <div
-      className="h-screen bg-cover bg-center flex flex-col"
-      style={{ backgroundImage: "url('/bg1.jpg')" }} // ใช้ bg1.jpg เป็นพื้นหลัง
+      className="h-screen bg-cover flex flex-col bg-top md:bg-center"
+      style={{ backgroundImage: "url('/bg1.jpg')" }}
     >
+
       <div className="flex flex-col justify-start md:pt-[5%] pt-[10%] xl:pt-[4%] px-4 flex-grow items-center">
         <h1 className="text-6xl md:text-7xl font-bold text-maincolor mb-2 md:mb-4 text-center drop-shadow-lg">
           Meiling & Tul
@@ -19,23 +20,23 @@ export default function Landing() {
         <h3 className="text-3xl md:text-4xl font-medium text-[#ACB593] mb-4 md:mb-10 text-center drop-shadow-lg">
           - Wedding Wishes Garden -
         </h3>
-        
-          <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4 justify-center items-center w-3/4 md:w-full">
-            <Button
-              variant="main" // ใช้ปุ่มแบบ main
-              href="/guestbook"
-              className="w-full md:w-auto"
-            >
-              Join the Event !!
-            </Button>
-            <Button
-              variant="sub" // ใช้ปุ่มแบบ secondary
-              href="/garden"
-              className="w-full md:w-auto"
-            >
-              Visit the Garden
-            </Button>
-            <Button
+
+        <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4 justify-center items-center w-3/4 md:w-full">
+          <Button
+            variant="main" // ใช้ปุ่มแบบ main
+            href="/guestbook"
+            className="w-full md:w-auto"
+          >
+            Join the Event !!
+          </Button>
+          <Button
+            variant="sub" // ใช้ปุ่มแบบ secondary
+            href="/garden"
+            className="w-full md:w-auto"
+          >
+            Visit the Garden
+          </Button>
+          <Button
             variant="sub2"
             onClick={() => setIsModalOpen(true)}
             className="flex items-center py-2.5 md:py-3 gap-3 w-full md:w-auto justify-center items-center"
@@ -43,8 +44,8 @@ export default function Landing() {
             <span className="font-sriracha text-lg whitespace-nowrap">ส่งใจ ใส่ซอง</span>
             <img src="/songicon.svg" alt="Song Icon" className="w-6 h-6 mb-1" />
           </Button>
-          </div>
-          
+        </div>
+
 
 
       </div>
