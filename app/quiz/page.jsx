@@ -8,13 +8,13 @@ export default function FormPage() {
       style={{ backgroundImage: "url('/bg4.JPG')" }}
     >
       <div className="w-full max-w-xl md:p-6 box-background relative">
-        <div className="w-full px-2 py-4">
-        <h1 className="text-4xl font-bold md:text-5xl font-bold text-maincolor mb-4 text-center">
-        Do You Know Us Well?
-        </h1>
-        <p className="text-2xl md:text-3xl font-medium text-[#796F5C] text-center max-w-xl">
-        Remember, guessing is half the fun!
-        </p>
+        <div className="w-full px-2 pt-6 md:py-3 pb-2">
+          <h1 className="text-4xl font-bold md:text-6xl font-bold text-maincolor mb-3 text-center">
+            NO.1 Friend Arena!
+          </h1>
+          <p className="text-2xl/7 md:text-3xl font-medium text-[#796F5C] font-bold text-center max-w-xl">
+            You've been invited to the battle.<br />Step up and give it your best!
+          </p>
         </div>
 
         <div className="w-full max-w-3xl overflow-hidden">
