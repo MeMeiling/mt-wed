@@ -167,7 +167,9 @@ export default function Guestbook() {
 
         ) : (
           <div className="p-6 text-center box-background relative">
-            <h2 className="text-3xl font-sriracha font-bold text-maincolor mb-4 max-h-[70px] overflow-y-auto overflow-x-hidden scrollbar-hide">Thank You, {submittedName}!</h2>
+            <h2 className="text-3xl font-sriracha font-bold text-maincolor mb-4 max-h-[140px] overflow-y-auto overflow-x-hidden scrollbar-hide">
+              Thank You,<br />{submittedName}!
+            </h2>
             <div className="relative w-40 h-40 mx-auto my-2">
               <img src={`/flowers/flower-${Math.floor(Math.random() * 10) + 1}.svg`} className="w-full h-full drop-shadow-xl" alt="Flower" />
               {previewImage && (
