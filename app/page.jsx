@@ -13,7 +13,7 @@ export default function Landing() {
       style={{ backgroundImage: "url('/bg1.jpg')" }}
     >
 
-      <div className="flex flex-col justify-start pt-[5%] px-4 flex-grow items-center">
+      <div className="flex flex-col justify-start pt-[5%] xl:pt-[3%] px-4 flex-grow items-center">
         <h1 className="text-6xl md:text-7xl font-bold text-maincolor mb-2 md:mb-4 text-center drop-shadow-lg">
           Meiling & Tul
         </h1>
