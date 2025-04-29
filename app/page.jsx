@@ -9,7 +9,7 @@ export default function Landing() {
 
   return (
     <div
-      className="h-screen bg-cover flex flex-col bg-top md:bg-center"
+      className="h-screen bg-cover flex flex-col bg-top md:bg-[center_70%]"
       style={{ backgroundImage: "url('/bg1.jpg')" }}
     >
 
