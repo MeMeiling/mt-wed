@@ -9,13 +9,13 @@ export default function QRModal({ isOpen, onClose }) {
                 <button onClick={onClose} className="absolute top-2 right-2">
                     <X size={24} />
                 </button>
-                <img src="/QR.png" alt="QR Code" className="w-[200px] mx-auto my-4" />
+                <img src="/QR.png" alt="QR Code" className="w-[230px] mx-auto my-4" />
                 <span className="font-sriracha text-xl font-bold my-4">
                     พิชชา รงคะศิริพันธ์
                     <br />
                     xxx-x-x1596-x
                 </span>
-                <h2 className="font-sriracha text-2xl font-bold my-4">ขอบคุณนะ 🥹</h2>
+                <h2 className="font-sriracha text-2xl font-bold">ขอบคุณนะ 🥹</h2>
             </div>
         </div>
     );

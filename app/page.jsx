@@ -13,7 +13,7 @@ export default function Landing() {
       style={{ backgroundImage: "url('/bg1.jpg')" }}
     >
 
-      <div className="flex flex-col justify-start pt-[5%] xl:pt-[3%] px-4 flex-grow items-center">
+      <div className="flex flex-col justify-start pt-[8%] xl:pt-[3%] px-4 flex-grow items-center">
         <h1 className="text-6xl md:text-7xl font-bold text-maincolor mb-2 md:mb-4 text-center drop-shadow-lg">
           Meiling & Tul
         </h1>
@@ -39,7 +39,7 @@ export default function Landing() {
           <Button
             variant="sub2"
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center py-2.5 md:py-3 gap-3 w-full md:w-auto justify-center items-center"
+            className="flex py-2.5 md:py-3 gap-3 w-full md:w-auto justify-center items-center"
           >
             <span className="font-sriracha text-lg whitespace-nowrap">ส่งใจ ใส่ซอง</span>
             <img src="/songicon.svg" alt="Song Icon" className="w-6 h-6 mb-1" />
@@ -60,15 +60,23 @@ export default function Landing() {
           Schedule
         </a>
 
-        {/* Text Link ไป Instagram Hashtag */}
-        <a
-          href="https://www.instagram.com/explore/tags/meitulwedding/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-white text-3xl font-bold text-shadow-lg hover:underline"
-        >
-          Lurk in #MeiTul
-        </a>
+        {/* Text Link ไป Instagram */}
+        <div className="flex items-center justify-center gap-1 text-white text-3xl font-bold text-shadow-lg hover:underline">
+          <a
+            href="https://www.instagram.com/meitulday/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className=""
+          >
+            Gallery
+          </a>
+          <img
+            src="/Instagram.svg"
+            alt="Instagram"
+            className="w-10 h-10 mt-2"
+          />
+        </div>
+
       </div>
 
       {/* Popup QR Modal */}

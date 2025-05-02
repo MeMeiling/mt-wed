@@ -152,15 +152,22 @@ export default function FlowerGarden() {
         <Link href="/" className="text-white text-2xl font-bold text-shadow-lg hover:underline">
           ← Back to home
         </Link>
-        {/* Text Link ไป Instagram Hashtag */}
-        <a
-          href="https://www.instagram.com/explore/tags/meitulwedding/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-white text-2xl font-bold text-shadow-lg hover:underline"
-        >
-          Lurk in #MeiTul
-        </a>
+        {/* Text Link ไป Instagram */}
+        <div className="flex items-center justify-center gap-1 text-white text-2xl font-bold text-shadow-lg hover:underline">
+          <a
+            href="https://www.instagram.com/meitulday/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className=""
+          >
+            Gallery
+          </a>
+          <img
+            src="/Instagram.svg"
+            alt="Instagram"
+            className="w-8 h-8 mt-2"
+          />
+        </div>
       </div>
       <h1 className="text-5xl font-bold text-center text-maincolor mt-6">Flower Garden</h1>
       <div className="relative w-full h-screen">

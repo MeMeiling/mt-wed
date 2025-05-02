@@ -10,8 +10,8 @@ export default function SchedulePage() {
 
     const weddingSchedule = [
         { time: "06:00", text: "รับประทานอาหารเช้า และร่วมถ่ายรูปเก็บภาพความทรงจำก่อนเริ่มพิธี" },
-        { time: "07:30", text: "เริ่มงานพิธีการ เจ้าบ่าวเดินขบวนขันหมากเข้าสู่งาน" },
-        { time: "07:45", text: "พิธีสู่ขอ รับมอบสินสอด และสวมแหวนแทนใจ" },
+        { time: "07:30", text: "เริ่มงานพิธีการ เจ้าบ่าวเดินขบวนเข้าสู่งาน" },
+        { time: "07:45", text: "พิธีสู่ขอ รับมอบสินสอด และสวมแหวน" },
         { time: "08:15", text: "พิธียกน้ำชา ขอบคุณญาติผู้ใหญ่" },
         { time: "10:00", text: "สิ้นสุดงานพิธีมงคลสมรส" },
     ];
@@ -93,18 +93,26 @@ export default function SchedulePage() {
 
             {/* ลิงก์ด้านล่าง */}
             <div className="w-full mb-4 bottom-5 left-0 right-0 md:px-14 px-0 flex justify-between items-center">
-                <Link href="/" className="text-white text-2xl font-bold hover:underline">
+                <Link href="/" className="text-white text-3xl font-bold text-shadow-lg hover:underline">
                     ← Back to home
                 </Link>
 
-                <a
-                    href="https://www.instagram.com/explore/tags/meitulwedding/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white text-2xl font-bold hover:underline"
-                >
-                    Lurk in #MeiTul
-                </a>
+                {/* Text Link ไป Instagram */}
+        <div className="flex items-center justify-center gap-1 text-white text-3xl font-bold text-shadow-lg hover:underline">
+          <a
+            href="https://www.instagram.com/meitulday/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className=""
+          >
+            Gallery
+          </a>
+          <img
+            src="/Instagram.svg"
+            alt="Instagram"
+            className="w-10 h-10 mt-2"
+          />
+        </div>
             </div>
 
             {/* Popup QR Modal */}

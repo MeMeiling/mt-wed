@@ -35,7 +35,7 @@ export default function FormPage() {
 
       {/* Mobile Back to Home Link */}
       <div className="block mt-6">
-        <Link href="/" className="text-white text-3xl font-bold hover:underline">
+        <Link href="/" className="text-white text-3xl font-bold text-shadow-lg hover:underline">
           ← Back to home
         </Link>
       </div>
