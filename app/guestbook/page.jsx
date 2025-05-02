@@ -196,7 +196,7 @@ export default function Guestbook() {
         {/* ปุ่ม "อยากใส่ซอง" */}
         <button
           onClick={() => setIsModalOpen(true)}
-          className="text-white text-lg hover:underline"
+          className="hover:underline"
         >
           <span className="text-white text-xl font-bold text-shadow-lg font-sriracha flex items-center whitespace-nowrap">
             ส่งใจ ใส่ซอง
