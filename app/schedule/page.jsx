@@ -98,21 +98,21 @@ export default function SchedulePage() {
                 </Link>
 
                 {/* Text Link ไป Instagram */}
-        <div className="flex items-center justify-center gap-1 text-white text-3xl font-bold text-shadow-lg hover:underline">
-          <a
-            href="https://www.instagram.com/meitulday/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className=""
-          >
-            Gallery
-          </a>
-          <img
-            src="/Instagram.svg"
-            alt="Instagram"
-            className="w-10 h-10 mt-2"
-          />
-        </div>
+                <div className="flex items-center justify-center gap-1 text-white text-3xl font-bold text-shadow-lg hover:underline">
+                    <a
+                        href="https://www.instagram.com/meitulday/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className=""
+                    >
+                        Gallery
+                    </a>
+                    <img
+                        src="/Instagram.png"
+                        alt="Instagram"
+                        className="w-10 h-10 mt-2"
+                    />
+                </div>
             </div>
 
             {/* Popup QR Modal */}

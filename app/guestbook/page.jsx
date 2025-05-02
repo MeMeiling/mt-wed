@@ -215,7 +215,7 @@ export default function Guestbook() {
             Gallery
           </a>
           <img
-            src="/Instagram.svg"
+            src="/Instagram.png"
             alt="Instagram"
             className="w-10 h-10 mt-2"
           />

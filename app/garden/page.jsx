@@ -163,7 +163,7 @@ export default function FlowerGarden() {
             Gallery
           </a>
           <img
-            src="/Instagram.svg"
+            src="/Instagram.png"
             alt="Instagram"
             className="w-8 h-8 mt-2"
           />
