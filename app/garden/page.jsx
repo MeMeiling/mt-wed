@@ -35,11 +35,11 @@ export default function FlowerGarden() {
 
     let minWidth, maxWidth;
     if (window.innerWidth <= 768) {
-      minWidth = -window.innerWidth * 0.1;
-      maxWidth = window.innerWidth - flowerSize - padding;
+      minWidth = -window.innerWidth * 0.05;
+      maxWidth = window.innerWidth - flowerSize;
     } else {
       minWidth = -window.innerWidth * 0.03;
-      maxWidth = window.innerWidth - flowerSize - padding;
+      maxWidth = window.innerWidth - flowerSize;
     }
 
     return {
