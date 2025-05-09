@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 body {
-  font-family: var(--caveat-font), sans-serif; /* ใช้ฟอนต์หลัก */
+  font-family: var(--caveat-font), sans-serif;
+  /* ใช้ฟอนต์หลัก */
 }
 
 
@@ -62,20 +63,31 @@ h5 {
 
 /* ฟอนต์สำหรับส่วนที่ใช้ Sriracha */
 .font-sriracha {
-  font-family: var(--sriracha-font), sans-serif !important; /* ใช้ฟอนต์ Sriracha */
-  line-height: 1.7; /* ปรับค่า line-height */
+  font-family: var(--sriracha-font), sans-serif !important;
+  /* ใช้ฟอนต์ Sriracha */
+  line-height: 1.7;
+  /* ปรับค่า line-height */
 }
 
 .full-background {
-  height: 100vh; /* เต็มความสูงของ viewport */
-  width: 100%; /* เต็มความกว้าง */
-  display: flex; /* ใช้ flexbox สำหรับการจัดตำแหน่ง */
-  align-items: center; /* จัดให้อยู่ตรงกลางแนวตั้ง */
-  justify-content: center; /* จัดให้อยู่ตรงกลางแนวนอน */
-  background-image: url('/background.jpg'); /* อ้างอิงถึงรูปในโฟลเดอร์ public */
-  background-size: cover; /* ครอบคลุมเต็มพื้นที่ */
-  background-position: center; /* อยู่ตรงกลาง */
-  background-repeat: no-repeat; /* ไม่ให้รูปซ้ำ */
+  height: 100vh;
+  /* เต็มความสูงของ viewport */
+  width: 100%;
+  /* เต็มความกว้าง */
+  display: flex;
+  /* ใช้ flexbox สำหรับการจัดตำแหน่ง */
+  align-items: center;
+  /* จัดให้อยู่ตรงกลางแนวตั้ง */
+  justify-content: center;
+  /* จัดให้อยู่ตรงกลางแนวนอน */
+  background-image: url('/background.jpg');
+  /* อ้างอิงถึงรูปในโฟลเดอร์ public */
+  background-size: cover;
+  /* ครอบคลุมเต็มพื้นที่ */
+  background-position: center;
+  /* อยู่ตรงกลาง */
+  background-repeat: no-repeat;
+  /* ไม่ให้รูปซ้ำ */
 }
 
 .bg-mobile-position {
@@ -83,39 +95,53 @@ h5 {
 }
 
 
-  .bg-desktop-position {
-    background-position: bottom -10%;
-  }
+.bg-desktop-position {
+  background-position: bottom -10%;
+}
 
 
 
 .box-background {
-  background-color: rgba(255, 255, 255, 0.5); /* สีขาวความทึบ 50% */
-  border-radius: 16px; /* มุมโค้ง 16px */
-  backdrop-filter: blur(2px); /* พื้นหลังเบลอ */
-  -webkit-backdrop-filter: blur(2px); /* รองรับ Safari */
+  background-color: rgba(255, 255, 255, 0.5);
+  /* สีขาวความทึบ 50% */
+  border-radius: 16px;
+  /* มุมโค้ง 16px */
+  backdrop-filter: blur(2px);
+  /* พื้นหลังเบลอ */
+  -webkit-backdrop-filter: blur(2px);
+  /* รองรับ Safari */
 }
 
 .box-background-qr {
-  background-color: rgba(255, 255, 255, 0.7); /* สีขาวความทึบ 50% */
-  border-radius: 16px; /* มุมโค้ง 16px */
-  backdrop-filter: blur(2px); /* พื้นหลังเบลอ */
-  -webkit-backdrop-filter: blur(2px); /* รองรับ Safari */
+  background-color: rgba(255, 255, 255, 0.6);
+  /* สีขาวความทึบ 50% */
+  border-radius: 16px;
+  /* มุมโค้ง 16px */
+  backdrop-filter: blur(2px);
+  /* พื้นหลังเบลอ */
+  -webkit-backdrop-filter: blur(2px);
+  /* รองรับ Safari */
 }
 
 .input-field {
-  background-color: rgba(255, 255, 255, 0.4); /* สีขาวกับความทึบ 40% */
-  border-radius: 8px; /* มุมโค้ง 8px */
-  border: 1px solid white; /* ขอบสีขาว */
-  padding: 0.5rem; /* การเพิ่ม padding สำหรับ input */
+  background-color: rgba(255, 255, 255, 0.4);
+  /* สีขาวกับความทึบ 40% */
+  border-radius: 8px;
+  /* มุมโค้ง 8px */
+  border: 1px solid white;
+  /* ขอบสีขาว */
+  padding: 0.5rem;
+  /* การเพิ่ม padding สำหรับ input */
 }
+
 /* เมื่อ input อยู่ในสถานะ focus */
 .input-field:focus {
-  border-color: var(--maincolor); /* เปลี่ยนขอบเป็นสี maincolor */
-  outline: none; /* ลบเส้นขอบที่เพิ่มขึ้นมาโดย default */
+  border-color: var(--maincolor);
+  /* เปลี่ยนขอบเป็นสี maincolor */
+  outline: none;
+  /* ลบเส้นขอบที่เพิ่มขึ้นมาโดย default */
 }
 
 .text-shadow-lg {
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
-

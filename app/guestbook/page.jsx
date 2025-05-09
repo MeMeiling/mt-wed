@@ -194,15 +194,12 @@ export default function Guestbook() {
 
       <div className="w-full mb-4 bottom-5 left-0 right-0 md:px-14 px-4 flex justify-between items-center">
         {/* ปุ่ม "อยากใส่ซอง" */}
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="hover:underline"
-        >
-          <span className="text-white text-xl font-bold text-shadow-lg font-sriracha flex items-center whitespace-nowrap">
+        <a href="/songjaisaisong">
+          <span className="text-white text-xl font-bold text-shadow-lg font-sriracha flex items-center whitespace-nowrap hover:underline">
             ส่งใจ ใส่ซอง
             <img src="/songicon.svg" alt="Song Icon" className="ml-2 w-8 h-8 mb-2" />
           </span>
-        </button>
+        </a>
 
         {/* Text Link ไป Instagram */}
         <div className="flex items-center justify-center gap-1 text-white text-3xl font-bold text-shadow-lg hover:underline">

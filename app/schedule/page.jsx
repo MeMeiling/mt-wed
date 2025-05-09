@@ -85,7 +85,7 @@ export default function SchedulePage() {
                         </div>
                     </div>
 
-                    <p className="text-sm text-seccolor text-center font-sriracha mb-2">
+                    <p className="text-base text-seccolor text-center font-sriracha mb-2">
                         หากนำภาชนะมาใส่ดอกไม้ หลังจากการเคลียร์สถานที่แล้วสามารถแจ้งคุณเจ้าหน้าที่ได้เลย มาช่วยลดขยะกันนะ
                     </p>
                 </div>

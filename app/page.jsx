@@ -38,7 +38,7 @@ export default function Landing() {
           </Button>
           <Button
             variant="sub2"
-            onClick={() => setIsModalOpen(true)}
+            href="/songjaisaisong"
             className="flex py-2.5 md:py-3 gap-3 w-full md:w-auto justify-center items-center"
           >
             <span className="font-sriracha text-lg whitespace-nowrap">ส่งใจ ใส่ซอง</span>
@@ -52,7 +52,7 @@ export default function Landing() {
 
       {/* Footer อยู่ที่ด้านล่างสุด */}
       <div className="px-4 md:px-14 py-4 text-white flex justify-between items-center mt-auto">
-        {/* ปุ่ม "อยากใส่ซอง" */}
+        {/* ปุ่ม "Schedule" */}
         <a
           href="/schedule"
           className="text-white text-3xl font-bold text-shadow-lg hover:underline"

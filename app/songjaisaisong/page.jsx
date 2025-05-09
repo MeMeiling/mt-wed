@@ -7,7 +7,7 @@ export default function FormPage() {
             className="min-h-screen bg-cover bg-center px-4 py-10 flex flex-col items-center"
             style={{ backgroundImage: "url('/bg5.jpg')" }}
         >
-            <div className="w-full max-w-xl md:p-6 box-background relative">
+            <div className="w-full max-w-lg md:p-6 box-background-qr relative">
                 <div className="w-full px-2 pt-6 md:py-3 pb-2">
                     <div className="flex items-center justify-center gap-4 md:gap-6 mb-6">
                         <h1 className="text-6xl font-bold md:text-7xl text-[#3D3220] text-center">
@@ -21,9 +21,15 @@ export default function FormPage() {
                     </div>
                     <div className="text-center">
                         <img src="/QR.png" alt="QR Code" className="w-[230px] mx-auto my-4" />
-                        <span className="font-sriracha text-lg font-bold text-[#3D3220] my-4">
-                            xxx-x-x1596-x ( พิชชา รงคะศิริพันธ์ )
+                        <div className="flex flex-col gap-y-2 font-sriracha font-bold text-[#3D3220] my-4">
+                        <span className="text-3xl">
+                            xxx-x-x1596-x
                         </span>
+                        <span className="text-xl">
+                            ( พิชชา รงคะศิริพันธ์ )
+                        </span>
+                        </div>
+                        
                     </div>
                 </div>
                 <div className="w-full max-w-3xl overflow-hidden">
