@@ -32,28 +32,28 @@ h5 {
   font-weight: 700;
 }
 
-body1 {
+.body1 {
   font-size: 24px;
   font-weight: 400;
   padding-top: 8px;
   padding-bottom: 8px;
 }
 
-body2 {
+.body2 {
   font-size: 20px;
   font-weight: 400;
   padding-top: 8px;
   padding-bottom: 8px;
 }
 
-body3 {
+.body3 {
   font-size: 16px;
   font-weight: 400;
   padding-top: 8px;
   padding-bottom: 8px;
 }
 
-body4 {
+.body4 {
   font-size: 16px;
   font-weight: 400;
   padding-top: 8px;
@@ -62,7 +62,7 @@ body4 {
 
 /* ฟอนต์สำหรับส่วนที่ใช้ Sriracha */
 .font-sriracha {
-  font-family: var(--sriracha-font), sans-serif; /* ใช้ฟอนต์ Sriracha */
+  font-family: var(--sriracha-font), sans-serif !important; /* ใช้ฟอนต์ Sriracha */
   line-height: 1.7; /* ปรับค่า line-height */
 }
 

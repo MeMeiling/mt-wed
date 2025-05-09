@@ -12,7 +12,7 @@ export { srirachaFont }; // Export srirachaFont สำหรับการใ�
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${caveatFont.variable} ${srirachaFont.variable}`}>  {/* ฟอนต์หลักถูกกำหนดที่นี่ */}
+      <body className={`${caveatFont.variable} ${srirachaFont.variable}`}>      {/* ฟอนต์หลักถูกกำหนดที่นี่ */}
         {children}
       </body>
     </html>
