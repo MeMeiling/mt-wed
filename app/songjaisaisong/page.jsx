@@ -26,7 +26,6 @@ export default function FormPage() {
                         </span>
                     </div>
                 </div>
-
                 <div className="w-full max-w-3xl overflow-hidden">
                     <iframe
                         src="https://docs.google.com/forms/d/e/1FAIpQLScQQRbsOBuHk0GAgGyeLNjdGjTHUkmmqgi_EAsLxD467uFX1Q/viewform?embedded=true"

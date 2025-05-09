@@ -7,6 +7,7 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  safelist: ['font-sriracha'], // <== เพิ่มตรงนี้
   theme: {
     extend: {
       colors: {
