@@ -5,7 +5,7 @@ import "./globals.css";
 const caveatFont = Caveat({ variable: '--caveat-font', subsets: ["latin"], weight: ["400", "700"] });
 
 // กำหนดฟอนต์ Sriracha (ฟอนต์เฉพาะบางส่วน)
-const srirachaFont = Sriracha({ variable: '--sriracha-font', subsets: ["latin", "thai"], weight: ["400"] });
+const srirachaFont = Sriracha({ variable: '--sriracha-font', subsets: ["latin", "thai"], weight: ["400"], display: "swap", });
 
 export { srirachaFont }; // Export srirachaFont สำหรับการใช้งานในส่วนอื่น ๆ
 
