@@ -2,8 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --caveat-font: 'Caveat', sans-serif;
+  --sriracha-font: 'Sriracha', sans-serif;
+}
+
 body {
-  font-family: var(--caveat-font), sans-serif;
+  font-family: var(--caveat-font), sans-serif; /* ใช้ฟอนต์หลัก */
 }
 
 
@@ -60,8 +65,10 @@ body4 {
   padding-bottom: 8px;
 }
 
+/* ฟอนต์สำหรับส่วนที่ใช้ Sriracha */
 .font-sriracha {
-  line-height: 1.7; /* ปรับค่า line-height ให้เหมาะสม */
+  font-family: var(--sriracha-font), sans-serif; /* ใช้ฟอนต์ Sriracha */
+  line-height: 1.7; /* ปรับค่า line-height */
 }
 
 .full-background {
