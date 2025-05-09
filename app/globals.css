@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --caveat-font: 'Caveat', sans-serif;
-  --sriracha-font: 'Sriracha', sans-serif;
-}
-
 body {
   font-family: var(--caveat-font), sans-serif; /* ใช้ฟอนต์หลัก */
 }
