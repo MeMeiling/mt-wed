@@ -21,7 +21,7 @@ export default function FlowerGarden() {
 
   const getFlowerCount = () => {
     if (typeof window === "undefined") return 60;
-    if (window.innerWidth <= 500) return 24;
+    if (window.innerWidth <= 500) return 20;
     if (window.innerWidth <= 800) return 46;
     if (window.innerWidth <= 1600) return 56;
     return 80;
@@ -150,11 +150,14 @@ export default function FlowerGarden() {
     <div className="h-screen bg-cover bg-center relative overflow-hidden" style={{ backgroundImage: "url('/bg3.jpg')" }}>
       <div className="absolute w-full bottom-4 px-4 md:px-6 flex justify-between items-center z-50">
         {/* ปุ่ม "Back to home" */}
-        <Link href="/" className="text-white text-2xl font-bold text-shadow-lg hover:underline">
-          ← Back to home
+        <Link href="/" className="text-white text-[22px] md:text-2xl font-bold text-shadow-lg hover:underline">
+          ← Home
+        </Link>
+        <Link href="/export" className="text-white text-[22px] md:text-2xl font-bold text-shadow-lg hover:underline">
+          View all
         </Link>
         {/* Text Link ไป Instagram */}
-        <div className="flex items-center justify-center gap-1 text-white text-2xl font-bold text-shadow-lg hover:underline">
+        <div className="flex items-center justify-center gap-1 text-white text-[22px] md:text-2xl font-bold text-shadow-lg hover:underline">
           <a
             href="https://www.instagram.com/meitulday/"
             target="_blank"
@@ -170,7 +173,7 @@ export default function FlowerGarden() {
           />
         </div>
       </div>
-      <h1 className="text-5xl font-bold text-center text-maincolor mt-6">Flower Garden</h1>
+      <h1 className="text-4xl md:text-5xl font-bold text-center text-maincolor mt-6">Flower Garden</h1>
       <div className="relative w-full h-screen">
         {visibleFlowers.map((wish) => (
           <div

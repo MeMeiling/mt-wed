@@ -88,19 +88,19 @@ export default function ExportWishPage() {
       <div className="relative z-10 min-h-screen p-8 overflow-y-auto">
         <h1 className="text-4xl font-bold text-center mb-10 text-maincolor">Export Wishes</h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
           {currentWishes.map((wish) => (
             <div
               key={wish.id}
               className="relative rounded-lg p-6 shadow-lg box-background-qr flex flex-col items-center gap-3 bg-white bg-opacity-80"
             >
-              <div className="relative w-32 h-32">
+              <div className="relative w-40 h-40">
                 <img src={wish.image} alt="Flower" className="w-full h-full drop-shadow-xl" />
                 {wish.imageUrl && (
                   <img
                     src={wish.imageUrl}
                     alt="User"
-                    className="absolute top-1/2 left-1/2 w-16 h-16 transform -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow"
+                    className="absolute top-1/2 left-1/2 w-20 h-20 transform -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow"
                   />
                 )}
               </div>
