@@ -159,7 +159,7 @@ export default function FlowerGarden() {
         {/* Text Link ไป Instagram */}
         <div className="flex items-center justify-center gap-1 text-white text-[22px] md:text-2xl font-bold text-shadow-lg hover:underline">
           <a
-            href="https://www.instagram.com/meitulday/"
+            href="https://www.instagram.com/meitul.bloomingspace/"
             target="_blank"
             rel="noopener noreferrer"
             className=""
