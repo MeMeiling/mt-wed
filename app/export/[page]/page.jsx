@@ -104,8 +104,8 @@ export default function ExportWishPage() {
                   />
                 )}
               </div>
-              <h2 className="text-2xl font-sriracha font-bold break-all text-seccolor text-center">{wish.name}</h2>
-              <p className="text-lg text-seccolor font-sriracha break-all text-center">“{wish.message}”</p>
+              <h2 className="text-xl md:text-2xl font-sriracha font-bold break-all text-seccolor text-center">{wish.name}</h2>
+              <p className="text-base md:text-lg text-seccolor font-sriracha break-all text-center">“{wish.message}”</p>
             </div>
           ))}
         </div>

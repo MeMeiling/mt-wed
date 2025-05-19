@@ -21,7 +21,7 @@ export default function SchedulePage() {
         { time: "10:30", text: "ร่วมถ่ายรูปกับบ่าวสาว เก็บภาพน่ารักๆ" },
         { time: "11:00", text: "เริ่มรับประทานอาหารเที่ยง" },
         { time: "11:30", custom: true },
-        { time: "12:30", text: "ตามหาผู้โชคดีรับช่อดอกไม้จากเจ้าสาว และตัดเค้ก" },
+        { time: "12:30", text: "ตามหาผู้โชคดีรับช่อดอกไม้จากเจ้าสาว" },
         { time: "13:00", text: "สิ้นสุดงาน ขอบคุณทุกคนที่มาอยู่ด้วยกันในวันพิเศษ" },
     ];
 
@@ -55,7 +55,7 @@ export default function SchedulePage() {
                         </div>
                     </div>
 
-                    <div className="mb-10">
+                    <div className="">
                         <h2 className="text-xl text-seccolor items-center flex flex-col font-semibold">
                             ช่วงงานเลี้ยง และกิจกรรม
                         </h2>
@@ -68,9 +68,9 @@ export default function SchedulePage() {
                                         <img src="/miniflower.svg" alt="flower icon" className="w-6 h-6 mt-0.5" />
                                         {item.custom ? (
                                             <div className="leading-snug flex flex-col gap-y-1">
-                                                <p>พูดคุยกับบ่าวสาว และเล่นเกม ลุ้นรับของรางวัล</p>
+                                                <p>พูดคุย เล่นเกมลุ้นของรางวัล และตัดเค้ก</p>
                                                 <Link href="/quiz" className="underline text-seccolor hover:opacity-80">
-                                                    ไปเล่นเกม →
+                                                    ไปยังลานประลอง →
                                                 </Link>
                                             </div>
                                         ) : (
@@ -85,9 +85,9 @@ export default function SchedulePage() {
                         </div>
                     </div>
 
-                    <p className="text-base text-seccolor text-center font-sriracha mb-2">
+                    {/* <p className="text-base text-seccolor text-center font-sriracha mb-2">
                         หากนำภาชนะมาใส่ดอกไม้ หลังจากการเคลียร์สถานที่แล้วสามารถแจ้งคุณเจ้าหน้าที่ได้เลย มาช่วยลดขยะกันนะ
-                    </p>
+                    </p> */}
                 </div>
             </div>
 
