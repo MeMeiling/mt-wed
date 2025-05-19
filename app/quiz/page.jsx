@@ -21,7 +21,7 @@ export default function FormPage() {
           <iframe
             src="https://docs.google.com/forms/d/e/1FAIpQLSd3j5KvwECv4QX8z5FY77tgyvG5_fPN1Mb3ETPHeY67oVK_qQ/viewform?embedded=true"
             width="100%"
-            height="550"
+            height="640"
             frameBorder="0"
             marginHeight="0"
             marginWidth="0"
@@ -31,6 +31,17 @@ export default function FormPage() {
             กำลังโหลด…
           </iframe>
         </div>
+        <a
+          href="https://docs.google.com/forms/d/e/1FAIpQLSd3j5KvwECv4QX8z5FY77tgyvG5_fPN1Mb3ETPHeY67oVK_qQ/viewform?usp=dialog"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block mt-2 mb-6 md:mb-2 text-[#796F5C] text-center text-2xl underline"
+        >
+          go to original quiz
+        </a>
+
+
+
       </div>
 
       {/* Mobile Back to Home Link */}
