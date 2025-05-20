@@ -205,7 +205,7 @@ export default function FlowerGarden() {
       {selectedWish && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="mx-6 p-6 rounded-lg shadow-lg max-w-sm w-full relative box-background-qr">
-            <h2 className="text-3xl font-sriracha font-bold text-seccolor text-center max-h-[80px] break-all overflow-y-auto overflow-x-hidden scrollbar-hide">{selectedWish.name}</h2>
+            <h2 className="text-3xl font-sriracha font-bold text-seccolor text-center max-h-[80px] break-normal overflow-y-auto overflow-x-hidden scrollbar-hide">{selectedWish.name}</h2>
             <div className="relative">
               {selectedWish.imageUrl && (
                 <img
@@ -216,7 +216,7 @@ export default function FlowerGarden() {
               )}
               <img src={selectedWish.image} className="z-1 w-40 h-40 mx-auto my-2 drop-shadow-xl" alt="Flower" />
             </div>
-            <p className="font-sriracha text-2xl text-seccolor text-center max-h-[260px] break-all overflow-y-auto overflow-x-hidden scrollbar-hide">
+            <p className="font-sriracha text-2xl text-seccolor text-center max-h-[260px] break-normal overflow-y-auto overflow-x-hidden scrollbar-hide">
               " {selectedWish.message} "
             </p>
             {/* <button onClick={() => setSelectedWish(null)} className="w-full mt-6 bg-maincolor text-xl text-white py-2 rounded-lg">Close</button> */}

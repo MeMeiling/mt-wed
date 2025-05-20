@@ -104,8 +104,8 @@ export default function ExportWishPage() {
                   />
                 )}
               </div>
-              <h2 className="text-xl md:text-2xl font-sriracha font-bold break-all text-seccolor text-center">{wish.name}</h2>
-              <p className="text-base md:text-lg text-seccolor font-sriracha break-all text-center">“{wish.message}”</p>
+              <h2 className="text-xl md:text-2xl font-sriracha font-bold break-normal text-seccolor text-center">{wish.name}</h2>
+              <p className="text-base md:text-lg text-seccolor font-sriracha break-normal text-center">“{wish.message}”</p>
             </div>
           ))}
         </div>
@@ -113,8 +113,8 @@ export default function ExportWishPage() {
         <div className="flex justify-center items-center gap-2 flex-wrap">{renderPagination()}</div>
 
         <div className="flex justify-center mt-6">
-        <Link href="/" className="text-white text-3xl font-bold text-shadow-lg hover:underline">
-          ← Back to home
+        <Link href="/garden" className="text-white text-3xl font-bold text-shadow-lg hover:underline">
+          ← Back to Garden
         </Link>
       </div>
       </div>
