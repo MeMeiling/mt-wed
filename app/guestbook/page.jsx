@@ -31,7 +31,7 @@ export default function Guestbook() {
     const file = e.target.files[0];
     if (file) {
       new Compressor(file, {
-        quality: 0.6,
+        quality: 0.5,
         success(result) {
           const objectUrl = URL.createObjectURL(result);
           setImageSrc(objectUrl);
